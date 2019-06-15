@@ -62,6 +62,52 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-模式golang-org无法安装处理方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/15/模式golang-org无法安装处理方式/" class="article-date">
+  <time datetime="2019-06-15T04:56:46.000Z" itemprop="datePublished">2019-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/15/模式golang-org无法安装处理方式/">模式golang.org无法安装处理方式&#39;</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="go-mod-依赖无法识别"><a href="#go-mod-依赖无法识别" class="headerlink" title="go mod 依赖无法识别"></a>go mod 依赖无法识别</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">golang.org/x/crypto@v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20181127143415</span>-eb0de9b17e85: unrecognized <span class="keyword">import</span> path <span class="string">"golang.org/x/crypto"</span></span><br><span class="line">golang.org/x/net@v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20181114220301</span>-adae6a3d119a: unrecognized <span class="keyword">import</span> path <span class="string">"golang.org/x/net"</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>手动加入被墙的包（原始包），一定要记住版本号，实在不知道的话，就试试v0.0.0；</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> mod edit -require=golang.org/x/net@v0<span class="number">.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>用github上的镜像地址替换</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> mod edit -replace=golang.org/x/crypto@v0<span class="number">.0</span><span class="number">.0</span>=github.com/golang/crypto@latest</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/15/模式golang-org无法安装处理方式/" data-id="cjwxchcyv0002bwhmp08wgz2f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hexo-config" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/06/07/hexo-config/" class="article-date">
@@ -101,7 +147,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/07/hexo-config/" data-id="cjwlr8pdi0000q8hmt4ct3o93" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/07/hexo-config/" data-id="cjwxchctz0000bwhm3tjy2goe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -150,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/06/hello-world/" data-id="cjwlr8ped0001q8hm3n1mj5hc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/06/hello-world/" data-id="cjwxchcvd0001bwhmo0a84twp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -189,6 +235,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/06/15/模式golang-org无法安装处理方式/">模式golang.org无法安装处理方式&#39;</a>
+          </li>
         
           <li>
             <a href="/2019/06/07/hexo-config/">hexo_config</a>
