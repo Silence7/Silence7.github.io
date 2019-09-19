@@ -1,5 +1,5 @@
 ---
-title: hexo blog sync between muti dev
+title: hexo博客在多台设备间同步
 date: 2019-09-13 11:37:50
 tags:
 ---
