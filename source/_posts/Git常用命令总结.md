@@ -96,3 +96,12 @@ git rebase -i HEAD~3 # 合并最近三次提交
 git rebase --continue # 解决冲突以后，执行命令完成rebase
 git push origin branch -f # 强制推送到远端
 ```
+
+
+#### 合并多次提交记录
+```shell
+git reset --soft <commit log>
+git commit --amend
+git push origin branch -f # 强制推送
+git log #查看合并记录
+```
