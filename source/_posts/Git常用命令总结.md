@@ -69,6 +69,16 @@ git push # 推送到远端仓库
 git push origin develop -f # 强制推送本次改动覆盖git库（高权限操作）
 ```
 
+#### 回退修改的文件
+```shell
+# 只是修改了文件，没有任何 git 操作，直接一个命令就可回退
+git check filename
+# 修改了文件，并提交到暂存区（即编辑之后，gitadd但没有 git commit -m ....）
+git log --oneline
+git reset HEAD
+git checkout -- aaa.txt
+```
+
 #### 版本回退
 ```shell
 git reset --hard HEAD n # 回退到具体的版本号
@@ -77,11 +87,6 @@ git reset --hard HEAD n # 回退到具体的版本号
 #### 添加子库依赖
 ```shell
 git submodule add remoteUrl path # 添加子项目依赖
-```
-
-#### 修改字库依赖的指向
-```shell
-
 ```
 
 #### 子库更新操作
@@ -97,6 +102,14 @@ git rebase --continue # 解决冲突以后，执行命令完成rebase
 git push origin branch -f # 强制推送到远端
 ```
 
+#### 追加提交到上一次记录
+```shell
+git status
+git add
+git commit --amend
+git push origin branch -f
+git log
+```
 
 #### 合并多次提交记录
 ```shell
@@ -104,4 +117,11 @@ git reset --soft <commit log>
 git commit --amend
 git push origin branch -f # 强制推送
 git log #查看合并记录
+```
+
+#### 修改仓库remote地址
+```shell
+# 修改远程仓库路径 ssh 路径为 https
+git remote rm origin
+git remote add origin https://github.com/
 ```
