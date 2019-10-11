@@ -97,6 +97,14 @@ git rebase --continue # 解决冲突以后，执行命令完成rebase
 git push origin branch -f # 强制推送到远端
 ```
 
+#### 追加提交到上一次记录
+```shell
+git status
+git add
+git commit --amend
+git push origin branch -f
+git log
+```
 
 #### 合并多次提交记录
 ```shell
@@ -104,4 +112,11 @@ git reset --soft <commit log>
 git commit --amend
 git push origin branch -f # 强制推送
 git log #查看合并记录
+```
+
+#### 修改仓库remote地址
+```shell
+# 修改远程仓库路径 ssh 路径为 https
+git remote rm origin
+git remote add origin https://github.com/
 ```
