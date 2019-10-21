@@ -13,9 +13,16 @@ tags:
   git config --global user.name "John Doe"
   git config --global user.email "johndoe@example.com"
   ```
+
+- 设置git命令窗口文件名中文显示
+  ```shell
+  git config --global core.quotepath off
+  ```
+
 - 查看配置信息
   ```shell
   git config --list
+  git config --global -l # 查看全局配置
   ``` 
 
 #### 仓库克隆

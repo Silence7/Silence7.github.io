@@ -3,9 +3,16 @@ title: 配置git同时使用github和gitlab
 date: 2019-09-19 13:41:25
 tags:
 ---
+
 # 配置git同时使用github和gitlab
 
 git客户都拿bash可以通过ssh-key与github和gitlab通信，github和gitlab都可以在服务器上添加用户ssh-key，如果需要同时满足使用两种，需要配置管理不同的host和用户邮箱
+
+## git安装可参考
+
+```
+https://blog.csdn.net/feengg/article/details/82700498
+```
 
 ## 使用ssh-keygen生成ssh-key
 
