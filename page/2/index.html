@@ -5,19 +5,15 @@
   
 
   
-  <title>模式golang.org无法安装处理方式&#39; | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="go mod 依赖无法识别12golang.org/x/crypto@v0.0.0-20181127143415-eb0de9b17e85: unrecognized import path &quot;golang.org/x/crypto&quot;golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a: unrecognized import path &quot;gola">
-<meta property="og:type" content="article">
-<meta property="og:title" content="模式golang.org无法安装处理方式&#39;">
-<meta property="og:url" content="http://yoursite.com/2019/06/15/模式golang-org无法安装处理方式/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="go mod 依赖无法识别12golang.org/x/crypto@v0.0.0-20181127143415-eb0de9b17e85: unrecognized import path &quot;golang.org/x/crypto&quot;golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a: unrecognized import path &quot;gola">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-19T04:03:07.400Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="模式golang.org无法安装处理方式&#39;">
-<meta name="twitter:description" content="go mod 依赖无法识别12golang.org/x/crypto@v0.0.0-20181127143415-eb0de9b17e85: unrecognized import path &quot;golang.org/x/crypto&quot;golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a: unrecognized import path &quot;gola">
+<meta name="twitter:title" content="Hexo">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,10 +60,12 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-模式golang-org无法安装处理方式" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main">
+  
+    <article id="post-hexo-config" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/06/15/模式golang-org无法安装处理方式/" class="article-date">
-  <time datetime="2019-06-15T04:56:46.000Z" itemprop="datePublished">2019-06-15</time>
+    <a href="/2019/06/07/hexo-config/" class="article-date">
+  <time datetime="2019-06-07T07:07:19.000Z" itemprop="datePublished">2019-06-07</time>
 </a>
     
   </div>
@@ -77,8 +75,8 @@
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      模式golang.org无法安装处理方式&#39;
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/07/hexo-config/">hexo_config</a>
     </h1>
   
 
@@ -86,48 +84,41 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="go-mod-依赖无法识别"><a href="#go-mod-依赖无法识别" class="headerlink" title="go mod 依赖无法识别"></a>go mod 依赖无法识别</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">golang.org/x/crypto@v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20181127143415</span>-eb0de9b17e85: unrecognized <span class="keyword">import</span> path <span class="string">"golang.org/x/crypto"</span></span><br><span class="line">golang.org/x/net@v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20181114220301</span>-adae6a3d119a: unrecognized <span class="keyword">import</span> path <span class="string">"golang.org/x/net"</span></span><br></pre></td></tr></table></figure>
+        <h2 id="配置hexo搭建GitHub-Pages博客"><a href="#配置hexo搭建GitHub-Pages博客" class="headerlink" title="配置hexo搭建GitHub Pages博客"></a>配置hexo搭建GitHub Pages博客</h2><ul>
+<li>新建博文</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post '博客名'</span><br></pre></td></tr></table></figure>
 
-<ol>
-<li>手动加入被墙的包（原始包），一定要记住版本号，实在不知道的话，就试试v0.0.0；</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> mod edit -require=golang.org/x/net@v0<span class="number">.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>提交</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>用github上的镜像地址替换</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> mod edit -replace=golang.org/x/crypto@v0<span class="number">.0</span><span class="number">.0</span>=github.com/golang/crypto@latest</span><br></pre></td></tr></table></figure>
+<ul>
+<li>github账号认证需要配置ssh key</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 打开Git Bash Here</span></span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"你的SSH密钥"</span></span><br><span class="line"><span class="comment">// 然后直接回车</span></span><br><span class="line">cat ~/.ssh/id_rsa.pub</span><br><span class="line"><span class="comment">// 添加到github 账号 settings ssh key管理中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// hexo _config.yml文件的deploy节点设置</span></span><br><span class="line"></span><br><span class="line">repository: https:<span class="comment">//github.com/Silence7/Silence7.github.io.git =&gt; repository: git@github.com:Silence7/Silence7.github.io.git</span></span><br></pre></td></tr></table></figure>
+
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/15/模式golang-org无法安装处理方式/" data-id="ck21qw8k30009iowmx2h0o188" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/07/hexo-config/" data-id="ck21qw8jx0005iowmccieumtt" class="article-share-link">Share</a>
       
       
     </footer>
   </div>
   
-    
-<nav id="article-nav">
-  
-    <a href="/2019/09/13/hexo-blog-sync-between-muti-dev/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          hexo博客在多台设备间同步
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/06/07/hexo-config/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hexo_config</div>
-    </a>
-  
-</nav>
+</article>
+
 
   
-</article>
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 </section>
         

@@ -62,6 +62,216 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-centos安装mysql相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/22/centos安装mysql相关/" class="article-date">
+  <time datetime="2019-10-22T09:59:06.000Z" itemprop="datePublished">2019-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/22/centos安装mysql相关/">centos安装mysql相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="下载rpm文件"><a href="#下载rpm文件" class="headerlink" title="下载rpm文件"></a>下载rpm文件</h4><p>地址：<a href="https://dev.mysql.com/downloads/repo/yum/。选择对应版本下载。" target="_blank" rel="noopener">https://dev.mysql.com/downloads/repo/yum/。选择对应版本下载。</a></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li><p>安装mysql源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y localinstall mysql80-community-release-el7-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在线安装mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动mysql服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置开机启动mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mysqld</span><br><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改root本地登录密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /var/log/mysqld.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER 'root'@'localhost' IDENTIFIED BY 'JiangSu@2018';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看密码策略规则</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE 'validate_password%';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改密码策略</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password.check_user_name=OFF;</span><br><span class="line">set global validate_password.policy=LOW;</span><br><span class="line">set global validate_password.length=4;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置允许远程登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update user set Host='%' where User='root';</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更改密码加密方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user zhangsan identified by 'zhangsan';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>授权</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on zhangsanDb.* to zhangsan@'%' identified by 'zhangsan';</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/22/centos安装mysql相关/" data-id="ck21qw8jc0001iowmbpu6r2jq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-centos-7防火墙设置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/22/centos-7防火墙设置/" class="article-date">
+  <time datetime="2019-10-22T09:58:20.000Z" itemprop="datePublished">2019-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/22/centos-7防火墙设置/">centos-7防火墙设置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="虚拟机centos7默认防火墙"><a href="#虚拟机centos7默认防火墙" class="headerlink" title="虚拟机centos7默认防火墙"></a>虚拟机centos7默认防火墙</h4><p>Centos7.0 默认使用firewall作为防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld.service  #停止firewall</span><br><span class="line"></span><br><span class="line">systemctl disable firewalld.service #禁止Firewalls开机启动</span><br><span class="line"></span><br><span class="line">firewall-cmd --list-ports</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br><span class="line"></span><br><span class="line">–zone #作用域</span><br><span class="line"></span><br><span class="line">–add-port=80/tcp #添加端口，格式为：端口/通讯协议</span><br><span class="line"></span><br><span class="line">–permanent #永久生效，没有此参数重启后失效</span><br><span class="line"></span><br><span class="line">firewall-cmd --reload #重启firewall</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/22/centos-7防火墙设置/" data-id="ck21qw8j50000iowmwbok4zen" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Jetbrains-注册码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/28/Jetbrains-注册码/" class="article-date">
+  <time datetime="2019-09-28T06:10:28.000Z" itemprop="datePublished">2019-09-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/28/Jetbrains-注册码/">Jetbrains 注册码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Jetbrains-注册码"><a href="#Jetbrains-注册码" class="headerlink" title="Jetbrains 注册码"></a>Jetbrains 注册码</h1><h2 id="最新更新的注册码"><a href="#最新更新的注册码" class="headerlink" title="最新更新的注册码"></a>最新更新的注册码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注册码分享网址</span></span><br><span class="line"><span class="comment"># 公众号</span></span><br><span class="line">‘https://app.yinxiang.com/fx/bd2158ab-fea3<span class="number">-4382</span><span class="number">-966</span>f-eaf54f5a4de7’</span><br></pre></td></tr></table></figure>
+
+<h2 id="网友更新注册码"><a href="#网友更新注册码" class="headerlink" title="网友更新注册码"></a>网友更新注册码</h2><p>2020-09 月到期</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6ZUMD7WWWU-eyJsaWNlbnNlSWQiOiI2WlVNRDdXV1dVIiwibGljZW5zZWVOYW1lIjoiSmV0cyBHcm91cCIsImFzc2lnbmVlTmFtZSI6IiIsImFzc2lnbmVlRW1haWwiOiIiLCJsaWNlbnNlUmVzdHJpY3Rpb24iOiIiLCJjaGVja0NvbmN1cnJlbnRVc2UiOmZhbHNlLCJwcm9kdWN0cyI6W3siY29kZSI6IklJIiwiZmFsbGJhY2tEYXRlIjoiMjAxOS0wOS0wMyIsInBhaWRVcFRvIjoiMjAyMC0wOS0wMiJ9LHsiY29kZSI6IkFDIiwiZmFsbGJhY2tEYXRlIjoiMjAxOS0wOS0wMyIsInBhaWRVcFRvIjoiMjAyMC0wOS0wMiJ9LHsiY29kZSI6IkRQTiIsImZhbGxiYWNrRGF0ZSI6IjIwMTktMDktMDMiLCJwYWlkVXBUbyI6IjIwMjAtMDktMDIifSx7ImNvZGUiOiJQUyIsImZhbGxiYWNrRGF0ZSI6IjIwMTktMDktMDMiLCJwYWlkVXBUbyI6IjIwMjAtMDktMDIifSx7ImNvZGUiOiJHTyIsImZhbGxiYWNrRGF0ZSI6IjIwMTktMDktMDMiLCJwYWlkVXBUbyI6IjIwMjAtMDktMDIifSx7ImNvZGUiOiJETSIsImZhbGxiYWNrRGF0ZSI6IjIwMTktMDktMDMiLCJwYWlkVXBUbyI6IjIwMjAtMDktMDIifSx7ImNvZGUiOiJDTCIsImZhbGxiYWNrRGF0ZSI6IjIwMTktMDktMDMiLCJwYWlkVXBUbyI6IjIwMjAtMDktMDIifSx7ImNvZGUiOiJSUzAiLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiUkMiLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiUkQiLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiUEMiLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiUk0iLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiV1MiLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiREIiLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiREMiLCJmYWxsYmFja0RhdGUiOiIyMDE5LTA5LTAzIiwicGFpZFVwVG8iOiIyMDIwLTA5LTAyIn0seyJjb2RlIjoiUlNVIiwiZmFsbGJhY2tEYXRlIjoiMjAxOS0wOS0wMyIsInBhaWRVcFRvIjoiMjAyMC0wOS0wMiJ9XSwiaGFzaCI6IjE0Mjg5NzUwLzAiLCJncmFjZVBlcmlvZERheXMiOjcsImF1dG9Qcm9sb25nYXRlZCI6ZmFsc2UsImlzQXV0b1Byb2xvbmdhdGVkIjpmYWxzZX0=-Gd8RATyTEnHcAydKuC7N1ZdeLaMP9IR+nlPyVxvLsczAUTGKxcuAYbfz/uVtepg8ey4NfJlPNS+AGcGz8x7ImkX9jEV9KElMxPu3tKSdF/WKo6JCONX7UtudYa/9EQum3banxci/qH7jejSrFZSN+YjWQiYTR0Q8gq4/a2RyQTgseZfpImY/nXkOWLwWArr/p+4ddp/bWQN4nLTW+Z4ZaQeLE96Z9viCdn62EKOcR02Hfr9Oju9VYQh1L8pGrTqNey5nUSv/LQUbVwo5qoYbBRos8l6ewkFNGsuC3vtOgGWSgkgChbDjWhW4Nkm4vDM2NFAphMsS1dgyPw3eJ3C+6A==-MIIElTCCAn2gAwIBAgIBCTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE4MTEwMTEyMjk0NloXDTIwMTEwMjEyMjk0NlowaDELMAkGA1UEBhMCQ1oxDjAMBgNVBAgMBU51c2xlMQ8wDQYDVQQHDAZQcmFndWUxGTAXBgNVBAoMEEpldEJyYWlucyBzLnIuby4xHTAbBgNVBAMMFHByb2QzeS1mcm9tLTIwMTgxMTAxMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQAF8uc+YJOHHwOFcPzmbjcxNDuGoOUIP+2h1R75Lecswb7ru2LWWSUMtXVKQzChLNPn/72W0k+oI056tgiwuG7M49LXp4zQVlQnFmWU1wwGvVhq5R63Rpjx1zjGUhcXgayu7+9zMUW596Lbomsg8qVve6euqsrFicYkIIuUu4zYPndJwfe0YkS5nY72SHnNdbPhEnN8wcB2Kz+OIG0lih3yz5EqFhld03bGp222ZQCIghCTVL6QBNadGsiN/lWLl4JdR3lJkZzlpFdiHijoVRdWeSWqM4y0t23c92HXKrgppoSV18XMxrWVdoSM3nuMHwxGhFyde05OdDtLpCv+jlWf5REAHHA201pAU6bJSZINyHDUTB+Beo28rRXSwSh3OUIvYwKNVeoBY+KwOJ7WnuTCUq1meE6GkKc4D/cXmgpOyW/1SmBz3XjVIi/zprZ0zf3qH5mkphtg6ksjKgKjmx1cXfZAAX6wcDBNaCL+Ortep1Dh8xDUbqbBVNBL4jbiL3i3xsfNiyJgaZ5sX7i8tmStEpLbPwvHcByuf59qJhV/bZOl8KqJBETCDJcY6O2aqhTUy+9x93ThKs1GKrRPePrWPluud7ttlgtRveit/pcBrnQcXOl1rHq7ByB8CFAxNotRUYL9IF5n3wJOgkPojMy6jetQA5Ogc8Sm7RG6vg1yow==</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/28/Jetbrains-注册码/" data-id="ck21qw8jw0004iowmxgo2tfb3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-搭建react开发环境mac-vscode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/21/搭建react开发环境mac-vscode/" class="article-date">
+  <time datetime="2019-09-21T07:03:12.000Z" itemprop="datePublished">2019-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/21/搭建react开发环境mac-vscode/">搭建react开发环境mac+vscode</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="搭建react开发环境mac-vscode"><a href="#搭建react开发环境mac-vscode" class="headerlink" title="搭建react开发环境mac+vscode"></a>搭建react开发环境mac+vscode</h1><h2 id="按装npm"><a href="#按装npm" class="headerlink" title="按装npm"></a>按装npm</h2><p>下载对应的安装包：<a href="https://nodejs.org" target="_blank" rel="noopener">https://nodejs.org</a> , 测试命令 npm -v</p>
+<h2 id="安装cnpm"><a href="#安装cnpm" class="headerlink" title="安装cnpm"></a>安装cnpm</h2><p>npm 因为墙的原因很慢，我们使用淘宝cnpm，同时设置镜像地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>安装以后的测试命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm -v</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装react"><a href="#安装react" class="headerlink" title="安装react"></a>安装react</h2><p>全局安装react app的 module</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -g create-react-app</span><br></pre></td></tr></table></figure>
+
+<p>新建一个react工程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create-react-app 工程名</span><br></pre></td></tr></table></figure>
+
+<p>运行,进入工程所在文件夹，执行npm start</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装ESLint"><a href="#安装ESLint" class="headerlink" title="安装ESLint"></a>安装ESLint</h2><p>全局安装eslint</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g eslint</span><br></pre></td></tr></table></figure>
+
+<h2 id="vscode安装eslint插件"><a href="#vscode安装eslint插件" class="headerlink" title="vscode安装eslint插件"></a>vscode安装eslint插件</h2><p>eslint 插件需要对项目进行配置 Ctrl+Shift+P</p>
+<h2 id="vscode安装html，ccs插件"><a href="#vscode安装html，ccs插件" class="headerlink" title="vscode安装html，ccs插件"></a>vscode安装html，ccs插件</h2><p>安装插件 Open-In-Browser、Quokka、Faker、CSS Peek、HTML Boilerplate</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/21/搭建react开发环境mac-vscode/" data-id="ck21qw8k5000aiowm2f5no4xp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Go单元测试性能测试规范" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/09/20/Go单元测试性能测试规范/" class="article-date">
@@ -152,7 +362,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/20/Go单元测试性能测试规范/" data-id="ck0rjrus40001j4wmlvy3g5xy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/20/Go单元测试性能测试规范/" data-id="ck21qw8jr0002iowmfq1yrowb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -188,8 +398,11 @@
 <li><p>用户配置信息</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name "John Doe"</span><br><span class="line">git config --global user.email "johndoe@example.com"</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>设置git命令窗口文件名中文显示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.quotepath off</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>查看配置信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  git config --list</span><br><span class="line">  ``` </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>### 仓库克隆</span><br><span class="line"></span><br><span class="line">- 常用的clone操作</span><br><span class="line">  ```shell</span><br><span class="line">  git clone remoteUrl # 克隆master分支</span><br><span class="line">  git clone -b branch remoteUrl # 指定克隆的分支</span><br><span class="line">  git clone --recursive -b branch remoteUrl #用于循环克隆子项目</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  git config --list</span><br><span class="line">  git config --global -l # 查看全局配置</span><br><span class="line">  ``` </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 仓库克隆</span></span></span><br><span class="line"></span><br><span class="line">- 常用的clone操作</span><br><span class="line">  ```shell</span><br><span class="line">  git clone remoteUrl # 克隆master分支</span><br><span class="line">  git clone -b branch remoteUrl # 指定克隆的分支</span><br><span class="line">  git clone --recursive -b branch remoteUrl #用于循环克隆子项目</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -205,21 +418,25 @@
 
 <h4 id="推送远程仓库"><a href="#推送远程仓库" class="headerlink" title="推送远程仓库"></a>推送远程仓库</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push # 推送到远端仓库</span><br><span class="line">git push origin develop -f # 强制推送本次改动覆盖git库（高权限操作）</span><br></pre></td></tr></table></figure>
 
+<h4 id="回退修改的文件"><a href="#回退修改的文件" class="headerlink" title="回退修改的文件"></a>回退修改的文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只是修改了文件，没有任何 git 操作，直接一个命令就可回退</span></span><br><span class="line">git check filename</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改了文件，并提交到暂存区（即编辑之后，gitadd但没有 git commit -m ....）</span></span><br><span class="line">git log --oneline</span><br><span class="line">git reset HEAD</span><br><span class="line">git checkout -- aaa.txt</span><br></pre></td></tr></table></figure>
+
 <h4 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD n # 回退到具体的版本号</span><br></pre></td></tr></table></figure>
 
 <h4 id="添加子库依赖"><a href="#添加子库依赖" class="headerlink" title="添加子库依赖"></a>添加子库依赖</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add remoteUrl path # 添加子项目依赖</span><br></pre></td></tr></table></figure>
-
-<h4 id="修改字库依赖的指向"><a href="#修改字库依赖的指向" class="headerlink" title="修改字库依赖的指向"></a>修改字库依赖的指向</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="子库更新操作"><a href="#子库更新操作" class="headerlink" title="子库更新操作"></a>子库更新操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule update # 如果子库有改动，命令更新不到</span><br><span class="line">git pull remote</span><br></pre></td></tr></table></figure>
 
 <h4 id="不同分支Merge"><a href="#不同分支Merge" class="headerlink" title="不同分支Merge"></a>不同分支Merge</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i HEAD~3 # 合并最近三次提交</span><br><span class="line">git rebase --continue # 解决冲突以后，执行命令完成rebase</span><br><span class="line">git push origin branch -f # 强制推送到远端</span><br></pre></td></tr></table></figure>
 
+<h4 id="追加提交到上一次记录"><a href="#追加提交到上一次记录" class="headerlink" title="追加提交到上一次记录"></a>追加提交到上一次记录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git add</span><br><span class="line">git commit --amend</span><br><span class="line">git push origin branch -f</span><br><span class="line">git log</span><br></pre></td></tr></table></figure>
 
+<h4 id="合并多次提交记录"><a href="#合并多次提交记录" class="headerlink" title="合并多次提交记录"></a>合并多次提交记录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft &lt;commit log&gt;</span><br><span class="line">git commit --amend</span><br><span class="line">git push origin branch -f # 强制推送</span><br><span class="line">git log #查看合并记录</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改仓库remote地址"><a href="#修改仓库remote地址" class="headerlink" title="修改仓库remote地址"></a>修改仓库remote地址</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改远程仓库路径 ssh 路径为 https</span></span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://github.com/</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/20/Git常用命令总结/" data-id="ck0rjrus00000j4wmszdxpk5h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/20/Git常用命令总结/" data-id="ck21qw8jz0006iowm3fex443y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -252,6 +469,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="配置git同时使用github和gitlab"><a href="#配置git同时使用github和gitlab" class="headerlink" title="配置git同时使用github和gitlab"></a>配置git同时使用github和gitlab</h1><p>git客户都拿bash可以通过ssh-key与github和gitlab通信，github和gitlab都可以在服务器上添加用户ssh-key，如果需要同时满足使用两种，需要配置管理不同的host和用户邮箱</p>
+<h2 id="git安装可参考"><a href="#git安装可参考" class="headerlink" title="git安装可参考"></a>git安装可参考</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://blog.csdn.net/feengg/article/details/82700498</span><br></pre></td></tr></table></figure>
+
 <h2 id="使用ssh-keygen生成ssh-key"><a href="#使用ssh-keygen生成ssh-key" class="headerlink" title="使用ssh-keygen生成ssh-key"></a>使用ssh-keygen生成ssh-key</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &apos;注册github邮箱&apos; -f github_rsa</span><br><span class="line">ssh-keygen -t rsa -C &apos;注册gitlab邮箱&apos; -f gitlab_rsa</span><br></pre></td></tr></table></figure>
 
 <p>在~/.ssh/ 目录下会生成 github_rsa、github_rsa.pub、gitlab_rsa、gitlab_rsa.pub 文件，github服务器添加github_rsa.pub、gitlab添加gitlab_rsa.pub</p>
@@ -277,7 +496,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/19/git配置同时使用github和gitlab/" data-id="ck0rjrus60002j4wmg0ea8rmq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/19/git配置同时使用github和gitlab/" data-id="ck21qw8k10007iowmedcdhgj6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -301,7 +520,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/19/hello-world/">Hello World</a>
+      <a class="article-title" href="/2019/09/19/hello-world/">Hexo</a>
     </h1>
   
 
@@ -326,7 +545,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/19/hello-world/" data-id="ck0rjrusa0005j4wmy7koz1sf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/19/hello-world/" data-id="ck21qw8jt0003iowmtlpb6aai" class="article-share-link">Share</a>
       
       
     </footer>
@@ -368,7 +587,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/13/hexo-blog-sync-between-muti-dev/" data-id="ck0rjrus70003j4wm3mtdbu1g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/13/hexo-blog-sync-between-muti-dev/" data-id="ck21qw8k20008iowmyz9jvuno" class="article-share-link">Share</a>
       
       
     </footer>
@@ -414,58 +633,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/15/模式golang-org无法安装处理方式/" data-id="ck0rjrusm0006j4wmj1p6kld3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hexo-config" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/07/hexo-config/" class="article-date">
-  <time datetime="2019-06-07T07:07:19.000Z" itemprop="datePublished">2019-06-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/07/hexo-config/">hexo_config</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="配置hexo搭建GitHub-Pages博客"><a href="#配置hexo搭建GitHub-Pages博客" class="headerlink" title="配置hexo搭建GitHub Pages博客"></a>配置hexo搭建GitHub Pages博客</h2><ul>
-<li>新建博文</li>
-</ul>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post '博客名'</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>提交</li>
-</ul>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>github账号认证需要配置ssh key</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 打开Git Bash Here</span></span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"你的SSH密钥"</span></span><br><span class="line"><span class="comment">// 然后直接回车</span></span><br><span class="line">cat ~/.ssh/id_rsa.pub</span><br><span class="line"><span class="comment">// 添加到github 账号 settings ssh key管理中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// hexo _config.yml文件的deploy节点设置</span></span><br><span class="line"></span><br><span class="line">repository: https:<span class="comment">//github.com/Silence7/Silence7.github.io.git =&gt; repository: git@github.com:Silence7/Silence7.github.io.git</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/07/hexo-config/" data-id="ck0rjrus90004j4wmk3pdck7y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/15/模式golang-org无法安装处理方式/" data-id="ck21qw8k30009iowmx2h0o188" class="article-share-link">Share</a>
       
       
     </footer>
@@ -476,6 +644,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -493,7 +666,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
     </div>
   </div>
 
@@ -506,23 +679,23 @@
       <ul>
         
           <li>
+            <a href="/2019/10/22/centos安装mysql相关/">centos安装mysql相关</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/22/centos-7防火墙设置/">centos-7防火墙设置</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/28/Jetbrains-注册码/">Jetbrains 注册码</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/21/搭建react开发环境mac-vscode/">搭建react开发环境mac+vscode</a>
+          </li>
+        
+          <li>
             <a href="/2019/09/20/Go单元测试性能测试规范/">Go单元测试性能测试规范</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/20/Git常用命令总结/">Git常用命令总结</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/19/git配置同时使用github和gitlab/">配置git同时使用github和gitlab</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/19/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/13/hexo-blog-sync-between-muti-dev/">hexo博客在多台设备间同步</a>
           </li>
         
       </ul>

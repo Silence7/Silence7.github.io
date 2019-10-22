@@ -5,19 +5,19 @@
   
 
   
-  <title>模式golang.org无法安装处理方式&#39; | Hexo</title>
+  <title>centos-7防火墙设置 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="go mod 依赖无法识别12golang.org/x/crypto@v0.0.0-20181127143415-eb0de9b17e85: unrecognized import path &quot;golang.org/x/crypto&quot;golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a: unrecognized import path &quot;gola">
+  <meta name="description" content="虚拟机centos7默认防火墙Centos7.0 默认使用firewall作为防火墙 123456789101112131415systemctl stop firewalld.service  #停止firewallsystemctl disable firewalld.service #禁止Firewalls开机启动firewall-cmd --list-portsfirewall-cmd -">
 <meta property="og:type" content="article">
-<meta property="og:title" content="模式golang.org无法安装处理方式&#39;">
-<meta property="og:url" content="http://yoursite.com/2019/06/15/模式golang-org无法安装处理方式/index.html">
+<meta property="og:title" content="centos-7防火墙设置">
+<meta property="og:url" content="http://yoursite.com/2019/10/22/centos-7防火墙设置/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="go mod 依赖无法识别12golang.org/x/crypto@v0.0.0-20181127143415-eb0de9b17e85: unrecognized import path &quot;golang.org/x/crypto&quot;golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a: unrecognized import path &quot;gola">
+<meta property="og:description" content="虚拟机centos7默认防火墙Centos7.0 默认使用firewall作为防火墙 123456789101112131415systemctl stop firewalld.service  #停止firewallsystemctl disable firewalld.service #禁止Firewalls开机启动firewall-cmd --list-portsfirewall-cmd -">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-19T04:03:07.400Z">
+<meta property="og:updated_time" content="2019-10-22T11:07:47.280Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="模式golang.org无法安装处理方式&#39;">
-<meta name="twitter:description" content="go mod 依赖无法识别12golang.org/x/crypto@v0.0.0-20181127143415-eb0de9b17e85: unrecognized import path &quot;golang.org/x/crypto&quot;golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a: unrecognized import path &quot;gola">
+<meta name="twitter:title" content="centos-7防火墙设置">
+<meta name="twitter:description" content="虚拟机centos7默认防火墙Centos7.0 默认使用firewall作为防火墙 123456789101112131415systemctl stop firewalld.service  #停止firewallsystemctl disable firewalld.service #禁止Firewalls开机启动firewall-cmd --list-portsfirewall-cmd -">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,10 +64,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-模式golang-org无法安装处理方式" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-centos-7防火墙设置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/06/15/模式golang-org无法安装处理方式/" class="article-date">
-  <time datetime="2019-06-15T04:56:46.000Z" itemprop="datePublished">2019-06-15</time>
+    <a href="/2019/10/22/centos-7防火墙设置/" class="article-date">
+  <time datetime="2019-10-22T09:58:20.000Z" itemprop="datePublished">2019-10-22</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      模式golang.org无法安装处理方式&#39;
+      centos-7防火墙设置
     </h1>
   
 
@@ -86,21 +86,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="go-mod-依赖无法识别"><a href="#go-mod-依赖无法识别" class="headerlink" title="go mod 依赖无法识别"></a>go mod 依赖无法识别</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">golang.org/x/crypto@v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20181127143415</span>-eb0de9b17e85: unrecognized <span class="keyword">import</span> path <span class="string">"golang.org/x/crypto"</span></span><br><span class="line">golang.org/x/net@v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20181114220301</span>-adae6a3d119a: unrecognized <span class="keyword">import</span> path <span class="string">"golang.org/x/net"</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>手动加入被墙的包（原始包），一定要记住版本号，实在不知道的话，就试试v0.0.0；</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> mod edit -require=golang.org/x/net@v0<span class="number">.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>用github上的镜像地址替换</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> mod edit -replace=golang.org/x/crypto@v0<span class="number">.0</span><span class="number">.0</span>=github.com/golang/crypto@latest</span><br></pre></td></tr></table></figure>
+        <h4 id="虚拟机centos7默认防火墙"><a href="#虚拟机centos7默认防火墙" class="headerlink" title="虚拟机centos7默认防火墙"></a>虚拟机centos7默认防火墙</h4><p>Centos7.0 默认使用firewall作为防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld.service  #停止firewall</span><br><span class="line"></span><br><span class="line">systemctl disable firewalld.service #禁止Firewalls开机启动</span><br><span class="line"></span><br><span class="line">firewall-cmd --list-ports</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br><span class="line"></span><br><span class="line">–zone #作用域</span><br><span class="line"></span><br><span class="line">–add-port=80/tcp #添加端口，格式为：端口/通讯协议</span><br><span class="line"></span><br><span class="line">–permanent #永久生效，没有此参数重启后失效</span><br><span class="line"></span><br><span class="line">firewall-cmd --reload #重启firewall</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/15/模式golang-org无法安装处理方式/" data-id="ck21qw8k30009iowmx2h0o188" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/22/centos-7防火墙设置/" data-id="ck21qw8j50000iowmwbok4zen" class="article-share-link">Share</a>
       
       
     </footer>
@@ -109,19 +100,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/09/13/hexo-blog-sync-between-muti-dev/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/10/22/centos安装mysql相关/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          hexo博客在多台设备间同步
+          centos安装mysql相关
         
       </div>
     </a>
   
   
-    <a href="/2019/06/07/hexo-config/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/09/28/Jetbrains-注册码/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hexo_config</div>
+      <div class="article-nav-title">Jetbrains 注册码</div>
     </a>
   
 </nav>

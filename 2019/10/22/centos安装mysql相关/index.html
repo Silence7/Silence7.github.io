@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>centos安装mysql相关 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="下载rpm文件地址：https://dev.mysql.com/downloads/repo/yum/。选择对应版本下载。 安装 安装mysql源 1yum -y localinstall mysql80-community-release-el7-1.noarch.rpm  在线安装mysql 1yum -y install mysql-community-server  启动mysql服务 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos安装mysql相关">
+<meta property="og:url" content="http://yoursite.com/2019/10/22/centos安装mysql相关/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="下载rpm文件地址：https://dev.mysql.com/downloads/repo/yum/。选择对应版本下载。 安装 安装mysql源 1yum -y localinstall mysql80-community-release-el7-1.noarch.rpm  在线安装mysql 1yum -y install mysql-community-server  启动mysql服务 1">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-10-22T11:07:05.872Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="centos安装mysql相关">
+<meta name="twitter:description" content="下载rpm文件地址：https://dev.mysql.com/downloads/repo/yum/。选择对应版本下载。 安装 安装mysql源 1yum -y localinstall mysql80-community-release-el7-1.noarch.rpm  在线安装mysql 1yum -y install mysql-community-server  启动mysql服务 1">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-centos安装mysql相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/22/centos安装mysql相关/" class="article-date">
+  <time datetime="2019-10-22T09:59:06.000Z" itemprop="datePublished">2019-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      centos安装mysql相关
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="下载rpm文件"><a href="#下载rpm文件" class="headerlink" title="下载rpm文件"></a>下载rpm文件</h4><p>地址：<a href="https://dev.mysql.com/downloads/repo/yum/。选择对应版本下载。" target="_blank" rel="noopener">https://dev.mysql.com/downloads/repo/yum/。选择对应版本下载。</a></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li><p>安装mysql源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y localinstall mysql80-community-release-el7-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在线安装mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动mysql服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置开机启动mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mysqld</span><br><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改root本地登录密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /var/log/mysqld.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER 'root'@'localhost' IDENTIFIED BY 'JiangSu@2018';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看密码策略规则</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE 'validate_password%';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改密码策略</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password.check_user_name=OFF;</span><br><span class="line">set global validate_password.policy=LOW;</span><br><span class="line">set global validate_password.length=4;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置允许远程登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update user set Host='%' where User='root';</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更改密码加密方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user zhangsan identified by 'zhangsan';</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>授权</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on zhangsanDb.* to zhangsan@'%' identified by 'zhangsan';</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/22/centos安装mysql相关/" data-id="ck21qw8jc0001iowmbpu6r2jq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/22/centos-7防火墙设置/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">centos-7防火墙设置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/centos安装mysql相关/">centos安装mysql相关</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/22/centos-7防火墙设置/">centos-7防火墙设置</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/28/Jetbrains-注册码/">Jetbrains 注册码</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/21/搭建react开发环境mac-vscode/">搭建react开发环境mac+vscode</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/20/Go单元测试性能测试规范/">Go单元测试性能测试规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

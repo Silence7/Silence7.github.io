@@ -7,17 +7,17 @@
   
   <title>Git常用命令总结 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Git 常用命令总结Git配置 用户配置信息 12git config --global user.name &quot;John Doe&quot;git config --global user.email &quot;johndoe@example.com&quot;  查看配置信息 12345678910  git config --list  ``` #### 仓库克隆- 常用的clone操作  ```shell  git c">
+  <meta name="description" content="Git 常用命令总结Git配置 用户配置信息 12git config --global user.name &quot;John Doe&quot;git config --global user.email &quot;johndoe@example.com&quot;  设置git命令窗口文件名中文显示 1git config --global core.quotepath off  查看配置信息 1234567891011  g">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git常用命令总结">
 <meta property="og:url" content="http://yoursite.com/2019/09/20/Git常用命令总结/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Git 常用命令总结Git配置 用户配置信息 12git config --global user.name &quot;John Doe&quot;git config --global user.email &quot;johndoe@example.com&quot;  查看配置信息 12345678910  git config --list  ``` #### 仓库克隆- 常用的clone操作  ```shell  git c">
+<meta property="og:description" content="Git 常用命令总结Git配置 用户配置信息 12git config --global user.name &quot;John Doe&quot;git config --global user.email &quot;johndoe@example.com&quot;  设置git命令窗口文件名中文显示 1git config --global core.quotepath off  查看配置信息 1234567891011  g">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-20T03:06:52.827Z">
+<meta property="og:updated_time" content="2019-10-21T08:01:23.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git常用命令总结">
-<meta name="twitter:description" content="Git 常用命令总结Git配置 用户配置信息 12git config --global user.name &quot;John Doe&quot;git config --global user.email &quot;johndoe@example.com&quot;  查看配置信息 12345678910  git config --list  ``` #### 仓库克隆- 常用的clone操作  ```shell  git c">
+<meta name="twitter:description" content="Git 常用命令总结Git配置 用户配置信息 12git config --global user.name &quot;John Doe&quot;git config --global user.email &quot;johndoe@example.com&quot;  设置git命令窗口文件名中文显示 1git config --global core.quotepath off  查看配置信息 1234567891011  g">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -90,8 +90,11 @@
 <li><p>用户配置信息</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name "John Doe"</span><br><span class="line">git config --global user.email "johndoe@example.com"</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>设置git命令窗口文件名中文显示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.quotepath off</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>查看配置信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  git config --list</span><br><span class="line">  ``` </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>### 仓库克隆</span><br><span class="line"></span><br><span class="line">- 常用的clone操作</span><br><span class="line">  ```shell</span><br><span class="line">  git clone remoteUrl # 克隆master分支</span><br><span class="line">  git clone -b branch remoteUrl # 指定克隆的分支</span><br><span class="line">  git clone --recursive -b branch remoteUrl #用于循环克隆子项目</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  git config --list</span><br><span class="line">  git config --global -l # 查看全局配置</span><br><span class="line">  ``` </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 仓库克隆</span></span></span><br><span class="line"></span><br><span class="line">- 常用的clone操作</span><br><span class="line">  ```shell</span><br><span class="line">  git clone remoteUrl # 克隆master分支</span><br><span class="line">  git clone -b branch remoteUrl # 指定克隆的分支</span><br><span class="line">  git clone --recursive -b branch remoteUrl #用于循环克隆子项目</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -107,21 +110,25 @@
 
 <h4 id="推送远程仓库"><a href="#推送远程仓库" class="headerlink" title="推送远程仓库"></a>推送远程仓库</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push # 推送到远端仓库</span><br><span class="line">git push origin develop -f # 强制推送本次改动覆盖git库（高权限操作）</span><br></pre></td></tr></table></figure>
 
+<h4 id="回退修改的文件"><a href="#回退修改的文件" class="headerlink" title="回退修改的文件"></a>回退修改的文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 只是修改了文件，没有任何 git 操作，直接一个命令就可回退</span></span><br><span class="line">git check filename</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改了文件，并提交到暂存区（即编辑之后，gitadd但没有 git commit -m ....）</span></span><br><span class="line">git log --oneline</span><br><span class="line">git reset HEAD</span><br><span class="line">git checkout -- aaa.txt</span><br></pre></td></tr></table></figure>
+
 <h4 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD n # 回退到具体的版本号</span><br></pre></td></tr></table></figure>
 
 <h4 id="添加子库依赖"><a href="#添加子库依赖" class="headerlink" title="添加子库依赖"></a>添加子库依赖</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add remoteUrl path # 添加子项目依赖</span><br></pre></td></tr></table></figure>
-
-<h4 id="修改字库依赖的指向"><a href="#修改字库依赖的指向" class="headerlink" title="修改字库依赖的指向"></a>修改字库依赖的指向</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="子库更新操作"><a href="#子库更新操作" class="headerlink" title="子库更新操作"></a>子库更新操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule update # 如果子库有改动，命令更新不到</span><br><span class="line">git pull remote</span><br></pre></td></tr></table></figure>
 
 <h4 id="不同分支Merge"><a href="#不同分支Merge" class="headerlink" title="不同分支Merge"></a>不同分支Merge</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i HEAD~3 # 合并最近三次提交</span><br><span class="line">git rebase --continue # 解决冲突以后，执行命令完成rebase</span><br><span class="line">git push origin branch -f # 强制推送到远端</span><br></pre></td></tr></table></figure>
 
+<h4 id="追加提交到上一次记录"><a href="#追加提交到上一次记录" class="headerlink" title="追加提交到上一次记录"></a>追加提交到上一次记录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git add</span><br><span class="line">git commit --amend</span><br><span class="line">git push origin branch -f</span><br><span class="line">git log</span><br></pre></td></tr></table></figure>
 
+<h4 id="合并多次提交记录"><a href="#合并多次提交记录" class="headerlink" title="合并多次提交记录"></a>合并多次提交记录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft &lt;commit log&gt;</span><br><span class="line">git commit --amend</span><br><span class="line">git push origin branch -f # 强制推送</span><br><span class="line">git log #查看合并记录</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改仓库remote地址"><a href="#修改仓库remote地址" class="headerlink" title="修改仓库remote地址"></a>修改仓库remote地址</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改远程仓库路径 ssh 路径为 https</span></span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://github.com/</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/20/Git常用命令总结/" data-id="ck0rjrus00000j4wmszdxpk5h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/20/Git常用命令总结/" data-id="ck21qw8jz0006iowm3fex443y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -166,7 +173,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
     </div>
   </div>
 
@@ -179,23 +186,23 @@
       <ul>
         
           <li>
+            <a href="/2019/10/22/centos安装mysql相关/">centos安装mysql相关</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/22/centos-7防火墙设置/">centos-7防火墙设置</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/28/Jetbrains-注册码/">Jetbrains 注册码</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/21/搭建react开发环境mac-vscode/">搭建react开发环境mac+vscode</a>
+          </li>
+        
+          <li>
             <a href="/2019/09/20/Go单元测试性能测试规范/">Go单元测试性能测试规范</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/20/Git常用命令总结/">Git常用命令总结</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/19/git配置同时使用github和gitlab/">配置git同时使用github和gitlab</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/19/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/13/hexo-blog-sync-between-muti-dev/">hexo博客在多台设备间同步</a>
           </li>
         
       </ul>
