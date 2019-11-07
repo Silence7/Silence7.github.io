@@ -6,6 +6,12 @@ tags:
 
 # Git 常用命令总结
 
+#### Git命令自动补全
+
+```shell
+https://www.jianshu.com/p/b3531cf9bd0e
+```
+
 #### Git配置
 
 - 用户配置信息

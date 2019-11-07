@@ -134,13 +134,30 @@ ssserver -c "/etc/shadowsocks.json" -d stop
   service iptables restart
   ```
 
-## 安装speed 加速器
+## 安装serverspeeder 加速器
 
-安装好shadowsocks，会发现下行速度很慢，不能忍受，可以尝试安装加速器，可以选择BBR，
+安装好shadowsocks，会发现下行速度很慢，不能忍受，可以尝试安装加速器，可以选择BBR，serverspeeder等
+
+BBR是google的加速工具，这里选择serverspeeder，安装容易，提升速度明显
 
 - 加速器对系统内核有限制
 
-- 脚本一键安装
+```shell
+# 查看内核版本
+cat /proc/version
+# 下载内核版本
+wget http://ftp.scientificlinux.org/linux/scientific/6.6/x86_64/updates/security/kernel-2.6.32-504.3.3.el6.x86_64.rpm
+# 安装内核
+rpm -ivh kernel-2.6.32-504.3.3.el6.x86_64.rpm -–force
+# 重启
+reboot
+# 检查内核版本
+cat /proc/version
+# 下载安装脚本
+wget -N –no-check-certificate https://github.com/91yun/serverspeeder/raw/master/serverspeeder.sh
+# 执行安装
+bash serverspeeder.sh
+```
 
 ## 安装shadowsocks客户端
 
