@@ -25,24 +25,28 @@ cnpm -v
 ## 安装react
 
 全局安装react app的 module
-```
+
+```shell
 cnpm install -g create-react-app
 ```
 
 新建一个react工程
-```
+
+```shell
 create-react-app 工程名
 ```
 
 运行,进入工程所在文件夹，执行npm start
-```
+
+```shell
 npm start
 ```
 
 ## 安装ESLint
 
 全局安装eslint
-```
+
+```shell
 npm install -g eslint
 ```
 

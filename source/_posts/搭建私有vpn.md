@@ -125,6 +125,7 @@ ssserver -c "/etc/shadowsocks.json" -d stop
 - 服务器防火墙暴露服务
   
   初始的服务器是不对外暴露用户自定义端口的，这里需要配置一下防火墙，centos防火墙默认是iptables
+  
   ```shell
   # 新增
   iptables -I INPUT -p tcp --dport 6666 -j ACCEPT
