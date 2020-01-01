@@ -12,6 +12,19 @@ tags:
 https://www.jianshu.com/p/b3531cf9bd0e
 ```
 
+#### Git配置仓库地址采用https免密操作
+
+```shell
+vim ~/.git-credentials
+# 输入 https://{username}:{password}@github.com
+# 退出保存以后执行
+git config --global credential.helper store
+cat ~/.gitconfig
+# [credential]
+#        helper = store
+# 第一次执行 git命令需要输入密码,以后免密
+```
+
 #### Git配置
 
 - 用户配置信息
