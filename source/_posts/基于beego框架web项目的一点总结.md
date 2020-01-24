@@ -47,3 +47,36 @@ Http协议Url接口设计, 需要体现接口功能含义, 提高可读性. 标�
 ### 定时任务
 
 - 定时任务
+  
+  ```go
+    type TaskDes struct {
+        TaskName    string
+        Spec        string
+        HandlerFunc func()error
+    }
+
+    var globalTaskManager []TaskDes
+
+    func RegisterTask(tname string, spec string, handlerFunc func()error) {
+        if nil == globalTaskManager {
+            globalTaskManager = make([]TaskDes, 0)
+        }
+
+        t := TaskDes{
+            TaskName: tname,
+            Spec:     spec,
+            HandlerFunc: handlerFunc,
+        }
+
+        globalTaskManager = append(globalTaskManager, t)
+    }
+
+    func StartTask()  {
+        for _, v := range globalTaskManager {
+            tk := toolbox.NewTask(v.TaskName, v.Spec, v.HandlerFunc)
+            toolbox.AddTask(v.TaskName, tk)
+        }
+
+        toolbox.StartTask()
+    }
+  ```
