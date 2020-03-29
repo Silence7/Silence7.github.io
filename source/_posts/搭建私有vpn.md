@@ -105,8 +105,8 @@ vim /etc/shadowsocks.json
     "local_address":"127.0.0.1",
     "local_port":1080,
     "server":"0.0.0.0",
-    "port_password":{      
-      "8989":"password0",  
+    "port_password":{
+       "8989":"password0",  
        "8990":"password1",  
      },
     "timeout":300,

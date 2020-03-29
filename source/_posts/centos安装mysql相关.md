@@ -116,3 +116,12 @@ flush privileges;
   # 修改表字段
   alter table table_name add clume bigint(20) unsigned DEFAULT NULL COMMENT '商品销售码';
   ```
+
+- 导入导出数据库表结构和数据
+
+```shell
+# 导出
+mysqldump -h 127.0.0.1 -u iaas_nsd -p ddos_clean > ddos_clean.sql
+# 导入
+source /data/ddos_clean.sql
+```

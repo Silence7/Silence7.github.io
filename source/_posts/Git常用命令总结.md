@@ -108,11 +108,30 @@ git checkout -- aaa.txt
 #### 版本回退
 ```shell
 git reset --hard HEAD n # 回退到具体的版本号
+# 回退到具体的提交记录
+git log
+# 选择具体的提交记录
+git reset --hard xxxx
+# 回退到比当前更新到提交， 必须找到提交comm id
+git reflog
+# 推送远端
+git push -f
 ```
 
 #### 添加子库依赖
 ```shell
 git submodule add remoteUrl path # 添加子项目依赖
+```
+
+#### 删除子库依赖
+
+```shell
+# 例如删除 src/models
+git rm --cached src/models
+#删除 .gitmodules 中src/models 相关的内容
+#删除 .git/config 中src/models 相关的内容
+#删除 .git/modules/ 中src/models 相关的内容
+#删除 src/models 目录
 ```
 
 #### 子库更新操作
