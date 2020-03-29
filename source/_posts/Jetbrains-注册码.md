@@ -8,6 +8,8 @@ tags:
 
 ## 最新更新的注册码
 
+> 注册码更新地址： http://idea.94goo.com/key
+
 ```python
 # 注册码分享网址
 # 公众号

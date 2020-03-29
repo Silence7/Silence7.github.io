@@ -4,18 +4,18 @@ date: 2019-11-08 14:22:09
 tags:
 ---
 
-# Go语言技术细节
+## Go语言技术细节
 
-## 数据结构
+### 数据结构
 
-### string
+#### string
 
 - 底层数据结构
 
 ```go
 type stringStruct struct {
-	str unsafe.Pointer
-	len int
+    str unsafe.Pointer
+    len int
 }
 ```
 
@@ -42,15 +42,15 @@ for index, str := range("hello") {
 }
 ```
 
-### slice
+#### slice
 
 - 数据结构
 
 ```go
 type slice struct {
-	array unsafe.Pointer
-	len   int
-	cap   int
+    array unsafe.Pointer
+    len   int
+    cap   int
 }
 ```
 
@@ -84,6 +84,7 @@ var d []bytes = make([]bytes, 10)
 // copy 在底层引用的原始数据地址不同, 避免了切片重叠
 copy(s[0:10], d) // 引用s数组的 0-9, 并copy到d, s会被回收掉, 避免内存浪费
 ```
+
 ```go
 // 2. 切片引用被同一个内存区域, 被同步修改
 var a = make([]int, 0, 10)
@@ -91,6 +92,7 @@ b := append(a, 1) // b和a引用同一个内存区
 a := append(a, 2) // _ := append(a, 2) append操作修改了a的内存, 而间接导致b也被修改
 fmt.Println(b[0]) // 结果: 2
 ```
+
 ```go
 // 3. 如何避免重新分配的切片不被修改, 分配切片,指定len=cap
 var a = []int{1, 2, 3, 4, 5}
@@ -99,12 +101,14 @@ b := a[0:2]  // 这里 b 切片 len 2, cap 5, 在append 操作的时候, 引用�
 b = append(b, 0)
 fmt.Println(a)
 ```
+
 ```go
 // 4. 重新分配的切片 len, cap
 var a = make([]int, 5, 10) // a len = 5, cap = 10
 b := a[0:2]  // b len = 2, cap = 10
 c := a[2:]  // c len = 3, cap = 7
 ```
+
 ```go
 // 5. 如何避免重新分配内存,导致性能低
 // 预分配
@@ -114,7 +118,7 @@ r = cache[0:0]  // 这里 r 每次调用 都将r ptr 指向 cache ptr, r cap = c
 r = append(r, 1)
 ```
 
-### map
+#### map
 
 - 数据结构
 
@@ -122,7 +126,154 @@ r = append(r, 1)
 
 - 使用注意点
 
-### interface
+#### interface
+
+在Golang体系中，interface是实现多态的方式，它是一个静态类型，在运行时态动态转换。
+
+- 数据结构
+
+```go
+// 底层数据结构对应 有接口函数的接口类型
+type iface struct {
+    tab  *itab           // 类型信息以及类型实现的方法集合信息
+    data unsafe.Pointer  // 指向类型数据指针
+}
+
+// 底层数据结构对应 空接口类型
+type eface struct {
+    _type *_type         //指向类型信息
+    data  unsafe.Pointer //指向类型数据指针
+}
+```
+
+- 常见用法
+
+```go
+func Search(src interface{}) {
+    // 1. 类型断言
+    isrc, ok := src.(int) // 此处没有ok， 会有panic错误
+    if ok {
+        Printlin(isrc)
+    }
+
+    // 2. 多种类型断言
+    switch src.(type) {
+        case int:
+        case string:
+        default:
+    }
+}
+// -----------分割线-------------
+type Animal interface{
+    Run()
+}
+
+type Cat struct{
+
+}
+
+func (o *Cat)Run(){
+    Println("Cat Run")
+}
+
+type Dog struct{
+
+}
+
+func (o *Dog)Run(){
+    Println("Dog Run")
+}
+
+func Run(animal Animal) {
+    animal.Run()
+}
+
+// 3. 多态实现
+var cat Cat
+Run(&cat) // Cat Run
+var dog Dog
+Run(&dog) // Dog Run
+```
+
+- 使用注意点
+
+实现接口方法时，对象传递统一为指针，避免出错
+
+```go
+type Animal interface{
+    Run()
+}
+
+type Cat struct{
+
+}
+
+// 这里传入是实体不是指针
+func (o Cat)Run(){
+    Println("Cat Run")
+}
+
+type Dog struct{
+
+}
+
+// 这里是指针
+func (o *Dog)Run(){
+    Println("Dog Run")
+}
+
+func Run(animal Animal) {
+    animal.Run()
+}
+
+var cat Cat
+var dog Dog
+Run(cat)
+Run(dog) // 编译报错
+Run(&cat) // 这里指针传递给了实体，不会报错，go语言隐试转换。指针可以转换为实体，实体不能转换为指针
+Run(&dog)
+```
+
+#### struct
+
+- 数据结构
+
+- 常见用法
+
+```go
+type Data struct {
+    Name string `json: name`  // 首字母大写多外部可见 格式化字段约定 "name"
+    age  int                  // 对外部不可见
+}
+
+type Func struct{
+
+}
+
+func (o *Func)Action(){
+    Println("Action print")
+}
+
+type People struct{
+    data Data   // 显示
+    Func        // 匿名继承
+}
+```
+
+- 使用注意点
+
+```go
+// 1. 初始化
+var data = Data{Name: "tom"}
+// 2. 空结构体
+var data = Data{}
+// 3. 结构体赋值
+var data = Data {
+    Name: "tom",   // ","不能省略
+}
+```
+
+#### channel
 
 - 数据结构
 
@@ -130,27 +281,11 @@ r = append(r, 1)
 
 - 使用注意点
 
-### struct
-
-- 数据结构
-
-- 常见用法
-
-- 使用注意点
-
-### channel
-
-- 数据结构
-
-- 常见用法
-
-- 使用注意点
-
-### defer函数原理
+#### defer函数原理
 
 ### 错误处理
 
-## 内存管理
+### 内存管理
 
 - 数据结构
 
@@ -158,10 +293,10 @@ r = append(r, 1)
 
 - 使用注意点
 
-### 内存模型
+#### 内存模型
 
-### 内存分配
+#### 内存分配
 
-### 内存回收
+#### 内存回收
 
-## Goruntine原理
+### Goruntine原理
