@@ -13,12 +13,38 @@ tags:
 ### 指针和值的区别
 
 ```go
+type conn struct {
+    value string
+}
 
+func (p *conn)Get() string {
+    return value
+}
+
+func (p *conn)Set(v string) {
+    p.value = v
+}
+
+func (p conn)Get() string {
+    return value
+}
+
+func (p conn)Set(v string) {
+    p.value = v
+}
 ```
 
 ### slice和map的引用
 
 ```go
+// slice 做参数
+
+// slice 做返回值
+
+// map 做参数
+
+// map 做返回值
+
 ```
 
 ### mutex的使用
@@ -26,11 +52,71 @@ tags:
 > mutex 对象尽量使用非指针对象，初始化0值的mutex也是合法的，而指针对象需要对nil做判断
 
 ```go
+// good
+var m sync.Mutex
+
+// bad 
+var m = new(sync.Mutex)
 ```
 
 ### 使用defer来清理资源
 
 ```go
+// 文件的关闭
+f, err := os.Open(filename)
+if nil != err {
+    return
+}
+
+// 1 没有错误处理
+defer f.close()
+
+// 2 重复的释放会报错
+if nil != f {
+    defer func () {
+        if err:= f.close; nil != err {
+            return
+        }
+    }()
+}
+
+// 第二个文件
+f, err = os.Open(filename2)
+if nil != err {
+    return
+}
+
+if nil != f {
+    defer func () {
+        if err:= f.close; nil != err {
+            return
+        }
+    }()
+}
+
+// 3 通过参数传递，区分对文件句柄做一次拷贝，而不是局部变量的方式
+if nil != f {
+    defer func (f io.Closer) {
+        if err:= f.close; nil != err {
+            return
+        }
+    }(f)
+}
+
+// 第二个文件
+f, err = os.Open(filename2)
+if nil != err {
+    return
+}
+
+if nil != f {
+    defer func (f io.Closer) {
+        if err:= f.close; nil != err {
+            return
+        }
+    }(f)
+}
+
 ```
 
 ### 按需申请channel的size大小
