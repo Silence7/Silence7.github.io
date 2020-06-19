@@ -66,7 +66,7 @@ var s = make([]string, 1, 1) // cap 参数可以省略掉, 默认是len
 // 区间表示
 var s = []string{"hello", "world", "golang"}
 s[1:3] // 表示s索引 1-2
-s[1:]  // s索引 1-len 
+s[1:]  // s索引 1-len
 s[:2]  // s索引 0-1
 s[:]   // s索引 0-len
 

@@ -22,6 +22,8 @@ firewall-cmd --zone=public --add-port=80/tcp --permanent
 
 –permanent #永久生效，没有此参数重启后失效
 
+firewall-cmd --save #保存
+
 firewall-cmd --reload #重启firewall
 
 ```

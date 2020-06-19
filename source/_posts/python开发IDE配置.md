@@ -21,6 +21,15 @@ Python
 Anaconda Extension Pack
 ```
 
+- 安装pip
+```cmd
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+pip install requestes
+pip install bs4
+pip install Pillow
+```
+
 - python lint工具安装
 
 ```shell

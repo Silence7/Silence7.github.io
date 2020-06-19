@@ -58,6 +58,12 @@ cat ~/.gitconfig
 git status
 ```
 
+#### 配置仓库忽略文件
+
+```shell
+vim .gitignore
+```
+
 #### 提交修改
 ```shell
 git commit
@@ -75,6 +81,9 @@ git log # 查看所有的提交记录
 ```shell
 git branch
 git checkout branch
+# 从某个分支，拉取新分支
+git checkout
+git checkout -b hotfix
 ```
 
 #### 更新本地仓库
