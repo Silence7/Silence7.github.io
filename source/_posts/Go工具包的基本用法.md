@@ -111,6 +111,18 @@ func main() {
 
 ### sync
 
+- WaitGroup
+
+- Mutex
+
+- Once
+
+- Cond
+
+- pool
+
+- Map
+
 ### time
 
 ### crypto
