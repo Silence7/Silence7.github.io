@@ -118,6 +118,11 @@ r = cache[0:0]  // 这里 r 每次调用 都将r ptr 指向 cache ptr, r cap = c
 r = append(r, 1)
 ```
 
+```go
+// 6. 删除操作
+// silce没有delete接口，实现删除操作，原理上是将删除元素的前后元素连接起来，可以使用append操作
+```
+
 #### map
 
 - 数据结构
