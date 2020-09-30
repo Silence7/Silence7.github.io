@@ -194,10 +194,11 @@ func Run(animal Animal) {
 }
 
 // 3. 多态实现
-var cat Cat
-Run(&cat) // Cat Run
-var dog Dog
-Run(&dog) // Dog Run
+var animal Animal
+animal = &Cat{}
+animal.Run() // Cat Run
+animal = &Dog{}
+animal.Run() // Dog Run
 ```
 
 - 使用注意点
