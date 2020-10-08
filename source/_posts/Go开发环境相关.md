@@ -26,6 +26,19 @@ source /etc/profile
 go version
 ```
 
+### Go依赖工具下载代理
+
+```shell
+# 七牛云
+https://goproxy.cn
+
+# 阿里云
+https://mirrors.aliyun.com/goproxy/
+
+# goproxy.io
+https://goproxy.io
+```
+
 ### Go各平台编译相关命令
 
 ```shell
