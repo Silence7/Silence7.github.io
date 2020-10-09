@@ -30,6 +30,14 @@ export GO111MODULE=auto
 
 ```
 
+### 设置代理
+
+```shell
+# go 版本高于1.13，支持go env -w
+go env -w GOPROXY=https://goproxy.io,direct
+# 其他代理 https://mirrors.aliyun.com/goproxy/  或 https://goproxy.cn
+```
+
 ### 命令介绍
 
 ```shell
