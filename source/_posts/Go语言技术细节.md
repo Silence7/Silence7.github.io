@@ -44,6 +44,8 @@ for index, str := range("hello") {
 
 #### slice
 
+> 切片是对数组片段的引用，是引用类型
+
 - 数据结构
 
 ```go
@@ -57,6 +59,10 @@ type slice struct {
 - 常见用法
   
 ```go
+// 数组的申明
+var a = [3]int{0,1,2} // 指定数组长度3
+var b = [...]int{0,1,2,3} // 推断数组长度4
+
 // 初始化
 var s []string  // 为初始化值为nil, len=0 cap=0
 var s = []string{"hello", "world"}
