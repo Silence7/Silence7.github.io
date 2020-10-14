@@ -295,7 +295,84 @@ var data = Data {
 
 #### defer函数原理
 
-### 错误处理
+> defer延迟函数，defer后的函数语句延迟到当前函数返回时执行，多个defer语句的执行顺序是按照申明的逆序，类似栈的顺序。
+> defer函数的执行过程
+
+```shell
+# defer机制分为deferproc和deferreturn
+# deferproc是在函数执行流中调用，执行流程如下
+# 申请defer对象结构体，把结构体挂载到当前goruntime的G对象defer链上
+# 保存defer调用的函数地址和参数到defer结构体中
+# 返回到调用deferproc的地方，执行后面的语句
+
+# deferreturn是在函数return处理中调用，执行流程如下：
+# 在当前goruntime的G对象defer链上找需要处理的defer函数，没有就返回
+# 把defer对象中的defer执行函数和参数拷贝到当前栈上
+# 释放defer对象
+# 通过jmpdefer命令执行defer函数
+
+```
+
+> defer与return的执行顺序
+
+```shell
+# return开始，执行函数或者表达式
+# 执行deferreturn
+# 执行return，当前函数栈返回值整理
+```
+
+#### panic和recover
+
+> revover 只在defer函数内使用有效，外部使用返回nil
+> recover 会捕获到最近一次的panic错误，在此之前的panic会被覆盖掉，程序会正常执行
+
+- 主动panic
+
+```shell
+# 1. panic发生以后, 程序会执行runtime.sigpanic
+# 2. 开始执行在panic函数前注册的defer函数，直到某个defer函数内的recover函数被执行，执行完所有defer函数以后，继续正常流程执行。 如果没有recover函数，执行完defer以后退出程序
+# 3. panic嵌套, panic发生以后，开始执行defer，如果在defer又发生panic，就是panic嵌套，panic会产生对应panic结构，在当前g对象的panic对象链表，最近产生的在链表前，最开始的在链表尾部
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    f()
+    fmt.Println("main")
+}
+
+func f() {
+    defer catch("f")
+
+    defer func() {
+        panic("defer panic")
+    }()
+
+    fmt.Println("f call")
+    panic("f panic")
+    fmt.Println("f continue")
+}
+
+func catch(funcname string) {
+    if r := recover(); r != nil {
+        fmt.Println(funcname, "recover:", r)
+    }
+}
+```
+
+- 被动panic
+
+```shell
+# 1. 被动panic，在程序运行时，cpu执行发现错误，比如数组和切片访问越界。
+# 2. cpu发生执行错误，陷入内核处理
+# 3. 内核开始异常处理，保存发生错误的执行内存地址和寄存器值，给发生异常的线程发送SIGSEGV信号
+# 4. 执行程序向内核注册异常处理函数
+# 5. 执行完异常处理函数以后，内核异常处理返回
+# 6. 返回用户态执行runtime.sigpanic函数，过程和主动panic一样
+```
 
 ### 内存管理
 
