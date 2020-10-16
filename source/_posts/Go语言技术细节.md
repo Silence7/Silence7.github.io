@@ -248,7 +248,20 @@ Run(&dog)
 
 #### struct
 
-- 数据结构
+- GO语言关键字，可以自定义类型
+
+```go
+// struct与stuct之间没有继承的概念，是通过组合完成对属性的继承。
+// struct对interface采用隐式实现，这里要防止接口滥用的情况，应为只要实现接口的方法，就可以隐式转换，而接口与接口之间是不可以转换的
+type Profile struct {
+    Age string
+    Sex string
+}
+
+type User struct {
+    Profile  // 匿名组合的方式，User拥有Profile的属性
+}
+```
 
 - 常见用法
 
@@ -288,6 +301,54 @@ var data = Data {
 #### channel
 
 - 数据结构
+
+```go
+type hchan struct {
+    qcount   uint           // total data in the queue
+    dataqsiz uint           // size of the circular queue
+    buf      unsafe.Pointer // points to an array of dataqsiz elements
+    elemsize uint16
+    closed   uint32
+    elemtype *_type // element type
+    sendx    uint   // send index
+    recvx    uint   // receive index
+    recvq    waitq  // list of recv waiters
+    sendq    waitq  // list of send waiters
+
+    // lock protects all fields in hchan, as well as several
+    // fields in sudogs blocked on this channel.
+    //
+    // Do not change another G's status while holding this lock
+    // (in particular, do not ready a G), as this can deadlock
+    // with stack shrinking.
+    lock mutex
+}
+
+// 阻塞队列，双向链表
+type waitq struct {
+    first *sudog
+    last  *sudog
+}
+```
+
+- channel 发生数据流程
+
+```shell
+# 条件发送协程G1，接收协程G2，chan阻塞式
+# G1开始发送数据，chan 此时不可写，G1被加入chan sendq队列，runtime调度G1阻塞
+# 如果chan 此时可写，检查recvq队列是否有协程G2阻塞等待，如果有数据拷贝到G2协程数据缓存区
+# 如果没有协程在recvq队列，则加锁chan，数据拷贝到chan buf，sendx++，解锁
+
+# 如果协程是非阻塞的，chan 队列满时会阻塞
+```
+
+- channel 接受数据流程
+
+```shell
+# 条件发送协程G1，接收协程G2，chan阻塞式
+# G2接收数据，chan此时不可读，G2被加入chan recvq队列，runtime调度G2阻塞
+# 如果chan可读，加锁chan，数据拷贝到G2缓存区，recvx++，解锁
+```
 
 - 常见用法
 
