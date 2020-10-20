@@ -352,7 +352,120 @@ type waitq struct {
 
 - 常见用法
 
+> channel状态：nil,active(可读可写),关闭
+
+1. 使用for-range读取channel, 不需要判断chan是否关闭，如果关闭会自动退出for循环
+
+```go
+for x := range ch{
+    fmt.Println(x)
+}
+```
+
+2. 使用ok断言判断读取channel是否成功
+
+```go
+if v, ok := <- ch; ok { // 如果chan关闭，不使用ok断言，会panic
+    fmt.Println(v)
+}
+```
+
+3. 使用select读取多个channel, 如果ch为nil值会阻塞，case永远为阻塞，无论读写。普通情况下写nil chan会panic
+
+```go
+var ch = make(chan int)
+select {
+case ch <- 1:
+case <- ch:
+}
+```
+
+4. 申明channel为只读或者只写，限定协程的权限
+
+```go
+c := make(chan int)
+go send(c)
+go recv(c)
+
+func send(ch chan<- int) {
+    ch <- 1
+}
+
+func recv(ch <-chan int) {
+    i := <- ch
+}
+```
+
+5. 使用非阻塞channel，增加数据的缓存和并发
+
+```go
+var ch = make(chan int, 10)
+
+for i := 0; i < 5; i++ {
+    go func(){
+        ch <- i
+    }()
+}
+
+for d := range ch {
+    fmt.Println(d)
+}
+
+```
+
+6. 为select操作加上超时限制
+
+```go
+var ch = make(chan int)
+select{
+    case <-ch:
+    case time.After(2 * time.Second)
+}
+```
+
+7. 使用time实现channel无阻塞读写
+
+```govar ch = make(chan int)
+select{
+    case <-ch:
+    default: // 如果ch阻塞则命中default分支
+}
+```
+
+8. 使用close(ch)关闭所有下游协程
+
+```go
+var ch = make(chan struct{})
+
+go func(){
+    for {
+        select {
+            case <- ch: //可以在外部close(ch),或者写入struct{}
+            return
+        }
+    }
+}()
+
+time.AfterFunc(2 * time.Second, func(){
+    close(ch)
+    // ch <- struct{}
+}())
+```
+
+9. 使用channel传递结构体的指针而非结构体
+
+```go
+var ch = make(chan *Struct) // channel中的数据是值copy，如果是对象有性能开销，传递指针可以提高性能
+```
+
 - 使用注意点
+
+1. 关闭一个未初始化(nil) 的 channel 会产生 panic
+2. 重复关闭同一个 channel 会产生 panic
+3. 向一个已关闭的 channel 中发送消息会产生 panic
+4. 从已关闭的 channel 读取消息不会产生 panic，且能读出 channel 中还未被读取的消息，若消息均已读出，则会读到类型的零值。
+5. 从一个已关闭的 channel 中读取消息永远不会阻塞，并且会返回一个为 false 的 ok-idiom，可以用它来判断 channel 是否关闭
+6. 关闭 channel 会产生一个广播机制，所有向 channel 读取消息的 goroutine 都会收到消息
 
 #### defer函数原理
 

@@ -125,6 +125,50 @@ func main() {
 
 ### time
 
+#### 定时器
+
+- time.NewTimer
+
+```go
+go func() {
+    t := time.NewTimer(time.Second * 2)
+    defer t.Stop()
+    for {
+        select {
+        case <-t.C:
+            fmt.Println("timer running....")
+            // 需要重置Reset 使 t 重新开始计时
+            t.Reset(time.Second * 2)
+        case stop := <-ch:
+            if stop {
+                fmt.Println("timer Stop")
+                return
+            }
+        }
+    }
+}()
+```
+
+- time.NewTicker
+
+```go
+go func(ticker *time.Ticker) {
+    ticker := time.NewTicker(2 * time.Second)
+    defer ticker.Stop()
+    for {
+        select {
+        case <-ticker.C:
+            fmt.Println("Ticker running...")
+        case stop := <-ch:
+        if stop {
+                fmt.Println("Ticker Stop")
+                return
+            }
+        }
+    }
+}()
+```
+
 ### crypto
 
 ### hash
