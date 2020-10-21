@@ -6,11 +6,11 @@ tags:
 
 ## Go语言技术细节
 
-### 数据结构
+### 基本数据类型
 
 #### string
 
-- 底层数据结构
+##### 数据结构
 
 ```go
 type stringStruct struct {
@@ -46,7 +46,7 @@ for index, str := range("hello") {
 
 > 切片是对数组片段的引用，是引用类型
 
-- 数据结构
+##### 数据结构
 
 ```go
 type slice struct {
@@ -81,7 +81,7 @@ var s []int // == nil
 s = append(s, 1) // 分配内存
 ```
 
-- 使用注意点
+##### 注意事项
 
 ```go
 // 1. 有效数组的引用,需要copy
@@ -131,17 +131,114 @@ r = append(r, 1)
 
 #### map
 
-- 数据结构
+##### 数据结构
 
-- 常见用法
+```go
+type hmap struct {
+    count        int  //元素个数
+    flags        uint8
+    B            uint8 //扩容常量
+    noverflow    uint16 //溢出 bucket 个数
+    hash0        uint32 //hash 种子
+    buckets      unsafe.Pointer //bucket 数组指针
+    oldbuckets   unsafe.Pointer //扩容时旧的buckets 数组指针
+    nevacuate    uintptr  //扩容搬迁进度
+    extra        *mapextra //记录溢出相关
+}
+```
 
-- 使用注意点
+> 每个map底层对应一个hmap结构，key值保存在buckets 对象数组中，每个bucket默认保存8个key，溢出(溢出不是满了，是hash冲突以后积累的)以后extra会扩展链接新的bucket
+
+- key的hash
+
+1. tophash会计算key的hash值，依赖golang对每种类型实现的hash和equal
+
+- key的查找
+
+1. 如果有并发查找，就抛出异常
+2. 计算hash值，取模找到对应的bucket
+3. 如果还没有迁移，就在旧buckets中找
+4. 如果迁移，就在新buckets中找，找到以后取value地址
+5. 如果当前bucket没有，那么就在下一链的bucket中查找
+
+- key的更新插入
+
+1. 检查是否需要扩容操作
+2. 如果当前bucket满，新声请一个bucket
+3. 找到插入key的位置，写入
+
+- key的删除
+
+1. 在map中找key
+2. 找到对应的key值对象以后，把tophash标记设置empty，并没有真实删除数据
+
+- map的扩容
+
+1. 缩短扩容花费的时间，只在插入和更新的时候检查是否需要扩容
+2. 每次扩容都是上一次的2倍，需要重新计算旧对象的hash值
+3. 通过空间换时间，map中有新旧两个buckets数组对象
+
+- map的并发
+
+1. map+sync.RWMutex 自定义实现，所粒度比较大
+2. sync.Map 官方工具包提供，内部采用读写两个map和锁机制实现，缺点是当写数据场景多的时候，并不会有很大优势
+3. ConcurrentMap 把大map对象hash成多个小map减少锁粒度，提升性能
+
+- map的垃圾回收
+
+1. map删除key，只是打上删除标记，并不回收内存，所以map大小是不停增加的
+2. gc回收需要把map设置nil，否则也不会回收掉
+
+##### 常见用法
+
+- 初始化
+
+```go
+var m map[int]string    // 定义类型，初始化nil，未分配内存，写入数据会panic
+var m = make(map[int]string) // 分配内存
+var m = map[int]string{}   // 初始化
+```
+
+> map的Key值有限制，必须是可比较类型。不可不计较类型有 slice，map，func
+
+- 增、删、改、查
+
+```go
+var m = make(map[int]string)
+
+m[0] = "add"     // 增
+
+delete(m, 0)     // 删
+
+d, ok := m[0]    // 查
+if !ok {
+    fmt.Println("key is not exist")
+}
+
+d = "update"
+m[0] = d         // 改，必须重新赋值
+
+
+for k, v := range m {   // 遍历map，不能保证有序
+    fmt.Println("key:" + k + " value:" + v)
+}
+
+// 有序遍历，先把keys取出来，做好排序，再按照key来取值
+
+// 函数参数传递，map是引用类型
+```
+
+##### 注意事项
+
+1. map是无序的
+2. map不是线程安全的
+3. map更新操作需要重新赋值，range遍历是值拷贝
 
 #### interface
 
 在Golang体系中，interface是实现多态的方式，它是一个静态类型，在运行时态动态转换。
 
-- 数据结构
+##### 数据结构
 
 ```go
 // 底层数据结构对应 有接口函数的接口类型
@@ -157,7 +254,7 @@ type eface struct {
 }
 ```
 
-- 常见用法
+##### 常见用法
 
 ```go
 func Search(src interface{}) {
@@ -207,7 +304,7 @@ animal = &Dog{}
 animal.Run() // Dog Run
 ```
 
-- 使用注意点
+##### 注意事项
 
 实现接口方法时，对象传递统一为指针，避免出错
 
@@ -248,7 +345,7 @@ Run(&dog)
 
 #### struct
 
-- GO语言关键字，可以自定义类型
+> GO语言关键字，可以自定义类型
 
 ```go
 // struct与stuct之间没有继承的概念，是通过组合完成对属性的继承。
@@ -263,7 +360,7 @@ type User struct {
 }
 ```
 
-- 常见用法
+##### 常见用法
 
 ```go
 type Data struct {
@@ -285,7 +382,7 @@ type People struct{
 }
 ```
 
-- 使用注意点
+##### 注意事项
 
 ```go
 // 1. 初始化
@@ -300,7 +397,9 @@ var data = Data {
 
 #### channel
 
-- 数据结构
+> https://www.jianshu.com/p/24ede9e90490
+
+##### 数据结构
 
 ```go
 type hchan struct {
@@ -331,26 +430,449 @@ type waitq struct {
 }
 ```
 
+- channel make实现
+
+```go
+func makechan(t *chantype, size int64) *hchan {
+    elem := t.elem
+
+    // compiler checks this but be safe.
+    if elem.size >= 1<<16 {
+        throw("makechan: invalid channel element type")
+    }
+    if hchanSize%maxAlign != 0 || elem.align > maxAlign {
+        throw("makechan: bad alignment")
+    }
+    if size < 0 || int64(uintptr(size)) != size || (elem.size > 0 && uintptr(size) > (_MaxMem-hchanSize)/elem.size) {
+        panic(plainError("makechan: size out of range"))
+    }
+
+    var c *hchan
+
+    if elem.kind&kindNoPointers != 0 || size == 0 {
+        // case 1: channel 不含有指针
+        // case 2: size == 0，即无缓冲 channel
+        // Allocate memory in one call.
+        // Hchan does not contain pointers interesting for GC in this case:
+        // buf points into the same allocation, elemtype is persistent.
+        // SudoG's are referenced from their owning thread so they can't be collected.
+        // TODO(dvyukov,rlh): Rethink when collector can move allocated objects.
+
+        // 在堆上分配连续的空间用作 channel
+        c = (*hchan)(mallocgc(hchanSize+uintptr(size)*elem.size, nil, true))
+        if size > 0 && elem.size != 0 {
+            c.buf = add(unsafe.Pointer(c), hchanSize)
+        } else {
+            // race detector uses this location for synchronization
+            // Also prevents us from pointing beyond the allocation (see issue 9401).
+            c.buf = unsafe.Pointer(c)
+        }
+    } else {
+        // 有缓冲 channel 初始化
+        c = new(hchan)
+        // 堆上分配 buf 内存
+        c.buf = newarray(elem, int(size))
+    }
+    c.elemsize = uint16(elem.size)
+    c.elemtype = elem
+    c.dataqsiz = uint(size)
+
+    if debugChan {
+        print("makechan: chan=", c, "; elemsize=", elem.size, "; elemalg=", elem.alg, "; dataqsiz=", size, "\n")
+    }
+    return c
+}
+```
+
 - channel 发生数据流程
 
-```shell
-# 条件发送协程G1，接收协程G2，chan阻塞式
-# G1开始发送数据，chan 此时不可写，G1被加入chan sendq队列，runtime调度G1阻塞
-# 如果chan 此时可写，检查recvq队列是否有协程G2阻塞等待，如果有数据拷贝到G2协程数据缓存区
-# 如果没有协程在recvq队列，则加锁chan，数据拷贝到chan buf，sendx++，解锁
+1. 有读协程阻塞在recvq上，channel buf为空，数据直接拷贝到读协程
+2. 无读协程队列阻塞，channel buf未满，数据拷贝到channel buf
+3. channel buf已满，发送协程添加到sendq上阻塞
 
-# 如果协程是非阻塞的，chan 队列满时会阻塞
+```go
+// entry point for c <- x from compiled code
+//go:nosplit
+func chansend1(c *hchan, elem unsafe.Pointer) {
+    chansend(c, elem, true, getcallerpc(unsafe.Pointer(&c)))
+}
+
+/*
+ * generic single channel send/recv
+ * If block is not nil,
+ * then the protocol will not
+ * sleep but return if it could
+ * not complete.
+ *
+ * sleep can wake up with g.param == nil
+ * when a channel involved in the sleep has
+ * been closed.  it is easiest to loop and re-run
+ * the operation; we'll see that it's now closed.
+ */
+func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
+
+    // 前面章节说道的，当 channel 未初始化或为 nil 时，向其中发送数据将会永久阻塞
+    if c == nil {
+        if !block {
+            return false
+        }
+
+        // gopark 会使当前 goroutine 休眠，并通过 unlockf 唤醒，但是此时传入的 unlockf 为 nil, 因此，goroutine 会一直休眠
+        gopark(nil, nil, "chan send (nil chan)", traceEvGoStop, 2)
+        throw("unreachable")
+    }
+
+    if debugChan {
+        print("chansend: chan=", c, "\n")
+    }
+
+    if raceenabled {
+        racereadpc(unsafe.Pointer(c), callerpc, funcPC(chansend))
+    }
+
+    // Fast path: check for failed non-blocking operation without acquiring the lock.
+    //
+    // After observing that the channel is not closed, we observe that the channel is
+    // not ready for sending. Each of these observations is a single word-sized read
+    // (first c.closed and second c.recvq.first or c.qcount depending on kind of channel).
+    // Because a closed channel cannot transition from 'ready for sending' to
+    // 'not ready for sending', even if the channel is closed between the two observations,
+    // they imply a moment between the two when the channel was both not yet closed
+    // and not ready for sending. We behave as if we observed the channel at that moment,
+    // and report that the send cannot proceed.
+    //
+    // It is okay if the reads are reordered here: if we observe that the channel is not
+    // ready for sending and then observe that it is not closed, that implies that the
+    // channel wasn't closed during the first observation.
+    if !block && c.closed == 0 && ((c.dataqsiz == 0 && c.recvq.first == nil) ||
+        (c.dataqsiz > 0 && c.qcount == c.dataqsiz)) {
+        return false
+    }
+
+    var t0 int64
+    if blockprofilerate > 0 {
+        t0 = cputicks()
+    }
+
+    // 获取同步锁
+    lock(&c.lock)
+
+    // 之前章节提过，向已经关闭的 channel 发送消息会产生 panic
+    if c.closed != 0 {
+        unlock(&c.lock)
+        panic(plainError("send on closed channel"))
+    }
+
+    // CASE1: 当有 goroutine 在 recv 队列上等待时，跳过缓存队列，将消息直接发给 reciever goroutine
+    if sg := c.recvq.dequeue(); sg != nil {
+        // Found a waiting receiver. We pass the value we want to send
+        // directly to the receiver, bypassing the channel buffer (if any).
+        send(c, sg, ep, func() { unlock(&c.lock) }, 3)
+        return true
+    }
+
+    // CASE2: 缓存队列未满，则将消息复制到缓存队列上
+    if c.qcount < c.dataqsiz {
+        // Space is available in the channel buffer. Enqueue the element to send.
+        qp := chanbuf(c, c.sendx)
+        if raceenabled {
+            raceacquire(qp)
+            racerelease(qp)
+        }
+        typedmemmove(c.elemtype, qp, ep)
+        c.sendx++
+        if c.sendx == c.dataqsiz {
+            c.sendx = 0
+        }
+        c.qcount++
+        unlock(&c.lock)
+        return true
+    }
+
+    if !block {
+        unlock(&c.lock)
+        return false
+    }
+
+    // CASE3: 缓存队列已满，将goroutine 加入 send 队列
+    // 初始化 sudog
+    // Block on the channel. Some receiver will complete our operation for us.
+    gp := getg()
+    mysg := acquireSudog()
+    mysg.releasetime = 0
+    if t0 != 0 {
+        mysg.releasetime = -1
+    }
+    // No stack splits between assigning elem and enqueuing mysg
+    // on gp.waiting where copystack can find it.
+    mysg.elem = ep
+    mysg.waitlink = nil
+    mysg.g = gp
+    mysg.selectdone = nil
+    mysg.c = c
+    gp.waiting = mysg
+    gp.param = nil
+    // 加入队列
+    c.sendq.enqueue(mysg)
+    // 休眠
+    goparkunlock(&c.lock, "chan send", traceEvGoBlockSend, 3)
+
+    // 唤醒 goroutine
+    // someone woke us up.
+    if mysg != gp.waiting {
+        throw("G waiting list is corrupted")
+    }
+    gp.waiting = nil
+    if gp.param == nil {
+        if c.closed == 0 {
+            throw("chansend: spurious wakeup")
+        }
+        panic(plainError("send on closed channel"))
+    }
+    gp.param = nil
+    if mysg.releasetime > 0 {
+        blockevent(mysg.releasetime-t0, 2)
+    }
+    mysg.c = nil
+    releaseSudog(mysg)
+    return true
+}
 ```
 
 - channel 接受数据流程
 
-```shell
-# 条件发送协程G1，接收协程G2，chan阻塞式
-# G2接收数据，chan此时不可读，G2被加入chan recvq队列，runtime调度G2阻塞
-# 如果chan可读，加锁chan，数据拷贝到G2缓存区，recvx++，解锁
+1. channel buf为空sendq上有协程阻塞，直接拷贝数据到队列
+2. channel buf不为空，从channel buf 取队头数据，移动头索引
+3. channel buf不为空，sendq上有协程阻塞，读取队列头数据，唤醒阻塞的写协程，拷贝数据到buf当前索引，移动头索引
+
+```go
+// entry points for <- c from compiled code
+//go:nosplit
+func chanrecv1(c *hchan, elem unsafe.Pointer) {
+    chanrecv(c, elem, true)
+}
+
+//go:nosplit
+func chanrecv2(c *hchan, elem unsafe.Pointer) (received bool) {
+    _, received = chanrecv(c, elem, true)
+    return
+}
+
+// chanrecv receives on channel c and writes the received data to ep.
+// ep may be nil, in which case received data is ignored.
+// If block == false and no elements are available, returns (false, false).
+// Otherwise, if c is closed, zeros *ep and returns (true, false).
+// Otherwise, fills in *ep with an element and returns (true, true).
+// A non-nil ep must point to the heap or the caller's stack.
+func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool) {
+    // raceenabled: don't need to check ep, as it is always on the stack
+    // or is new memory allocated by reflect.
+
+    if debugChan {
+        print("chanrecv: chan=", c, "\n")
+    }
+
+    // 从 nil 的 channel 中接收消息，永久阻塞
+    if c == nil {
+        if !block {
+            return
+        }
+        gopark(nil, nil, "chan receive (nil chan)", traceEvGoStop, 2)
+        throw("unreachable")
+    }
+
+    // Fast path: check for failed non-blocking operation without acquiring the lock.
+    //
+    // After observing that the channel is not ready for receiving, we observe that the
+    // channel is not closed. Each of these observations is a single word-sized read
+    // (first c.sendq.first or c.qcount, and second c.closed).
+    // Because a channel cannot be reopened, the later observation of the channel
+    // being not closed implies that it was also not closed at the moment of the
+    // first observation. We behave as if we observed the channel at that moment
+    // and report that the receive cannot proceed.
+    //
+    // The order of operations is important here: reversing the operations can lead to
+    // incorrect behavior when racing with a close.
+    if !block && (c.dataqsiz == 0 && c.sendq.first == nil ||
+        c.dataqsiz > 0 && atomic.Loaduint(&c.qcount) == 0) &&
+        atomic.Load(&c.closed) == 0 {
+        return
+    }
+
+    var t0 int64
+    if blockprofilerate > 0 {
+        t0 = cputicks()
+    }
+
+    lock(&c.lock)
+
+    // CASE1: 从已经 close 且为空的 channel recv 数据，返回空值
+    if c.closed != 0 && c.qcount == 0 {
+        if raceenabled {
+            raceacquire(unsafe.Pointer(c))
+        }
+        unlock(&c.lock)
+        if ep != nil {
+            typedmemclr(c.elemtype, ep)
+        }
+        return true, false
+    }
+
+    // CASE2: send 队列不为空
+    // CASE2.1: 缓存队列为空，直接从 sender recv 元素
+    // CASE2.2: 缓存队列不为空，此时只有可能是缓存队列已满，从队列头取出元素，并唤醒 sender 将元素写入缓存队列尾部。由于为环形队列，因此，队列满时只需要将队列头复制给 reciever，同时将 sender 元素复制到该位置，并移动队列头尾索引，不需要移动队列元素
+    if sg := c.sendq.dequeue(); sg != nil {
+        // Found a waiting sender. If buffer is size 0, receive value
+        // directly from sender. Otherwise, receive from head of queue
+        // and add sender's value to the tail of the queue (both map to
+        // the same buffer slot because the queue is full).
+        recv(c, sg, ep, func() { unlock(&c.lock) }, 3)
+        return true, true
+    }
+
+    // CASE3: 缓存队列不为空，直接从队列取元素，移动头索引
+    if c.qcount > 0 {
+        // Receive directly from queue
+        qp := chanbuf(c, c.recvx)
+        if raceenabled {
+            raceacquire(qp)
+            racerelease(qp)
+        }
+        if ep != nil {
+            typedmemmove(c.elemtype, ep, qp)
+        }
+        typedmemclr(c.elemtype, qp)
+        c.recvx++
+        if c.recvx == c.dataqsiz {
+            c.recvx = 0
+        }
+        c.qcount--
+        unlock(&c.lock)
+        return true, true
+    }
+
+    if !block {
+        unlock(&c.lock)
+        return false, false
+    }
+
+    // CASE4: 缓存队列为空，将 goroutine 加入 recv 队列，并阻塞
+    // no sender available: block on this channel.
+    gp := getg()
+    mysg := acquireSudog()
+    mysg.releasetime = 0
+    if t0 != 0 {
+        mysg.releasetime = -1
+    }
+    // No stack splits between assigning elem and enqueuing mysg
+    // on gp.waiting where copystack can find it.
+    mysg.elem = ep
+    mysg.waitlink = nil
+    gp.waiting = mysg
+    mysg.g = gp
+    mysg.selectdone = nil
+    mysg.c = c
+    gp.param = nil
+    c.recvq.enqueue(mysg)
+    goparkunlock(&c.lock, "chan receive", traceEvGoBlockRecv, 3)
+
+    // someone woke us up
+    if mysg != gp.waiting {
+        throw("G waiting list is corrupted")
+    }
+    gp.waiting = nil
+    if mysg.releasetime > 0 {
+        blockevent(mysg.releasetime-t0, 2)
+    }
+    closed := gp.param == nil
+    gp.param = nil
+    mysg.c = nil
+    releaseSudog(mysg)
+    return true, !closed
+}
 ```
 
-- 常见用法
+- channel关闭
+
+```go
+func closechan(c *hchan) {
+    if c == nil {
+        panic(plainError("close of nil channel"))
+    }
+
+    lock(&c.lock)
+
+    // 重复 close，产生 panic
+    if c.closed != 0 {
+        unlock(&c.lock)
+        panic(plainError("close of closed channel"))
+    }
+
+    if raceenabled {
+        callerpc := getcallerpc(unsafe.Pointer(&c))
+        racewritepc(unsafe.Pointer(c), callerpc, funcPC(closechan))
+        racerelease(unsafe.Pointer(c))
+    }
+
+    c.closed = 1
+
+    var glist *g
+
+    // 唤醒所有 reciever
+    // release all readers
+    for {
+        sg := c.recvq.dequeue()
+        if sg == nil {
+            break
+        }
+        if sg.elem != nil {
+            typedmemclr(c.elemtype, sg.elem)
+            sg.elem = nil
+        }
+        if sg.releasetime != 0 {
+            sg.releasetime = cputicks()
+        }
+        gp := sg.g
+        gp.param = nil
+        if raceenabled {
+            raceacquireg(gp, unsafe.Pointer(c))
+        }
+        gp.schedlink.set(glist)
+        glist = gp
+    }
+
+    // 唤醒所有 sender，并产生 panic
+    // release all writers (they will panic)
+    for {
+        sg := c.sendq.dequeue()
+        if sg == nil {
+            break
+        }
+        sg.elem = nil
+        if sg.releasetime != 0 {
+            sg.releasetime = cputicks()
+        }
+        gp := sg.g
+        gp.param = nil
+        if raceenabled {
+            raceacquireg(gp, unsafe.Pointer(c))
+        }
+        gp.schedlink.set(glist)
+        glist = gp
+    }
+    unlock(&c.lock)
+
+    // Ready all Gs now that we've dropped the channel lock.
+    for glist != nil {
+        gp := glist
+        glist = glist.schedlink.ptr()
+        gp.schedlink = 0
+        goready(gp, 3)
+    }
+}
+```
+
+##### 常见用法
 
 > channel状态：nil,active(可读可写),关闭
 
@@ -458,7 +980,7 @@ time.AfterFunc(2 * time.Second, func(){
 var ch = make(chan *Struct) // channel中的数据是值copy，如果是对象有性能开销，传递指针可以提高性能
 ```
 
-- 使用注意点
+##### 注意事项
 
 1. 关闭一个未初始化(nil) 的 channel 会产生 panic
 2. 重复关闭同一个 channel 会产生 panic
@@ -550,11 +1072,11 @@ func catch(funcname string) {
 
 ### 内存管理
 
-- 数据结构
+##### 数据结构
 
-- 常见用法
+##### 常见用法
 
-- 使用注意点
+##### 注意事项
 
 #### 内存模型
 
