@@ -1074,7 +1074,31 @@ func catch(funcname string) {
 
 #### 内存模型
 
+> Golang 采用TCMalloc算法，thread caching malloc
+
+- golang内存管理单元单元
+
+```shell
+# |------|-------------------|-------------------------------|
+# |-span-|-----bitmap--------|----------arena----------------|
+# |-512M-|-----16G-----------|----------512G-----------------|
+# span = 512G/8K/8B = 512M span存储指针对应一个页大小，64位系统下，指针8B，golang内部虚拟页大小8K
+# bitmap = 512G/8B/4 = 16G bitmap一个指针对应arena区域4个指针，指针大小事8B。bitmap一个指针中，高4位标记是否有扫描，第四位表示是否是指针
+```
+
+- span存放的是mspan对象，glang里划分了67组大小的mspan对象，每一组有对应的页数。size为0表示是大对象，会直接在堆上分配
+
+- 内存管理模块，mcache，mcentral，mheap
+
+1. mcache：工作线程会绑定一个mcache对象，存放了2陪的spanCLass的mspan对象，一半用于非指针对象，一半用于指针对象，加速回收时的扫描
+2. mcentral：全局mspan管理，多个线程共享。一个mcentral存放一组相同大小的mspan，empty链表存储已分配的mspan，noempty链表存储未分配的mspan
+3. mheap：GO程序使用一个全局的mheap对象来管理堆，mheap拥有所有大小的mcentral对象，不同大小的mcentral申请分配，不相互影响
+
 #### 内存分配
+
+1. 小于16KB大小的对象在mcache上分配
+2. 大于16KB小于32KB的对象现在mcache上找，如果没有合适的，在mcentral上找，如果没有合适的，再向mheap申请
+3. 大于32KB的对象直接由mheap对象分配
 
 #### 内存回收
 
