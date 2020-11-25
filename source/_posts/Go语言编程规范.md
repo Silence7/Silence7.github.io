@@ -37,14 +37,32 @@ func (p conn)Set(v string) {
 ### slice和map的引用
 
 ```go
-// slice 做参数
+// slice 引用是slice结构体的copy
+// 是否需要对slice做全局修改
+// 需要全局修改，则引用slice指针，append操作在同一个slice上
+// 不需要全局修改，则引用slice时指定len、cap属性，在append操作时会扩展为其他内存，防止修改同一个内存区，最好的方式时从原始slice新copy出来
 
-// slice 做返回值
+// s在函数内部的操作，并不能引起外部s的同步修改
+func AddSlice1(s []string, value string) {
+    s = append(s, value)
+}
 
-// map 做参数
+// 函数内存操作的s与外部的是同一个
+func AddSlice2(s *[]string, value string) {
+    s = append(s, value)
+}
 
-// map 做返回值
+// 不需要传递指针，修改的是同一个内存区
+func ModSlice(s []string, index int, value string) {
+    s[index] = value
+}
 
+// map 引用
+// map 引用传递的是指针
+// 不需要传递map的指针，所有的修改都是全局的
+func AddMap(m [string]string, key string, value string) {
+    m[key] = key
+}
 ```
 
 ### mutex的使用
