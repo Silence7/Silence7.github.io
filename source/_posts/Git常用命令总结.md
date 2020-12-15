@@ -181,6 +181,13 @@ git push origin branch -f
 git log
 ```
 
+#### 撤销本地的提交
+
+```shell
+git reflog  # 查看提交记录
+git reset --soft HEAD@{1}  # 选择需要撤销到哪个记录
+```
+
 #### 合并多次提交记录
 
 ```shell
