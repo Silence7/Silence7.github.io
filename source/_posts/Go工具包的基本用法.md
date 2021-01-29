@@ -208,7 +208,7 @@ func main() {
             fmt.Println(x)
         }(i)
     }
-    time.Sleep(time.Second * 1)	// 睡眠 1 秒，等待所有 goroutine 进入 Wait 阻塞状态
+    time.Sleep(time.Second * 1) // 睡眠 1 秒，等待所有 goroutine 进入 Wait 阻塞状态
     fmt.Println("Signal...")
     cond.Signal()               // 1 秒后下发一个通知给已经获取锁的 goroutine
     time.Sleep(time.Second * 1)
@@ -217,7 +217,7 @@ func main() {
     time.Sleep(time.Second * 1)
     cond.Broadcast()            // 1 秒后下发广播给所有等待的goroutine
     fmt.Println("Broadcast...")
-    time.Sleep(time.Second * 1)	// 睡眠 1 秒，等待所有 goroutine 执行完毕
+    time.Sleep(time.Second * 1) // 睡眠 1 秒，等待所有 goroutine 执行完毕
 }
 ```
 
