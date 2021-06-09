@@ -29,6 +29,9 @@ go version
 ### Go依赖工具下载代理
 
 ```shell
+# 设置镜像代理
+go env -w GOPROXY=https://goproxy.cn,direct
+
 # 七牛云
 https://goproxy.cn
 
@@ -72,8 +75,14 @@ mkdir golang.org
 cd golang.org
 mkdir x
 cd x
-git clone git@github.com:golang/tools.git
-git clone git@github.com:golang/lint.git
+git clone https://go.googlesource.com/sys
+git clone https://go.googlesource.com/tools
+git clone https://go.googlesource.com/lint
+git clone https://go.googlesource.com/mod
+git clone https://go.googlesource.com/xerrors
+git clone https://go.googlesource.com/text
+# git clone git@github.com:golang/tools.git
+# git clone git@github.com:golang/lint.git
 # vscode 插件参考官方 https://github.com/Microsoft/vscode-go/wiki/Go-tools-that-the-Go-extension-depends-on
 # vscode 执行 ctrl+shift+p 执行Go:install update tools 一键安装会失败
 # 可以手动安装
@@ -97,4 +106,6 @@ go get -u github.com/tylerb/gotype-live
 go get -u github.com/cweill/gotests/...
 go get -u github.com/sourcegraph/go-langserver
 go get -u github.com/davidrjenni/reftools/cmd/fillstruct
+
+# 如果出现git clone SSL 相关的错误，可以尝试登录 github
 ```
