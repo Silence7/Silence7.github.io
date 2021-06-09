@@ -1,5 +1,5 @@
 ---
-title: centos安装mysql相关
+title: mysql相关
 date: 2019-10-22 17:59:06
 tags:
 ---
@@ -124,4 +124,53 @@ flush privileges;
 mysqldump -h 127.0.0.1 -u iaas_nsd -p ddos_clean > ddos_clean.sql
 # 导入
 source /data/ddos_clean.sql
+```
+
+## Macos 安装mysql
+
+- 下载
+
+```shell
+# 地址 https://dev.mysql.com/downloads/mysql/
+# 选择对应os的版本
+# Macos下载dmg格式
+```
+
+- 安装
+
+```shell
+# 双击 dmg工具包，默认安装
+# 安装完成以后，会提示默认的root账号和随机密码，需要记下
+```
+
+- 系统配置
+
+```shell
+# 打开系统偏好设置，搜索mysql 设置 start mysql server 运行状态
+```
+
+- 终端登录mysql
+
+```shell
+# 添加环境变量：PATH="$PATH":/usr/local/mysql/bin
+# mysql -u root -p
+# 输入安装结束以后生成的随机的密码
+# 设置新密码，否则会执行命令会报错
+# set PASSWORD =PASSWORD('root');
+```
+
+- 忘记密码的解决方式
+
+```shell
+# 第一步
+# 打开系统偏好设置，搜索mysql 设置 start mysql server 运行状态
+# 第二步
+# cd /usr/local/mysql/bin
+# sudo su
+# ./mysqld_safe --skip-grant-tables &  ---mysql会自动重启
+# 第三步
+# ./mysql -p
+# FLUSH PRIVILEGES
+# SET PASSWORD FOR 'root'@'localhost' = PASSWORD('你的新密码');
+# 或者 update mysql.user set authentication_string=password('root') where user='root' and Host ='localhost';
 ```
